@@ -1,7 +1,6 @@
 # Netlify — Oxygen Island (site statique, aucune étape de build)
 [build]
   publish = "."
-  command = ""
 
 # Vidéos : cache long, contenu immuable (accélère le chargement, économise la bande passante)
 [[headers]]
