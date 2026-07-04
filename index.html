@@ -365,7 +365,22 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
 .tour-next:hover{background:var(--lagoon);color:#03201d;transform:translateY(-50%) scale(1.08)}
 .tour-next:focus-visible{outline:2px solid var(--lagoon-glow);outline-offset:3px}
 .tour-foot{margin-top:18px;color:var(--sand-dim);font-size:13px}
-@media(max-width:620px){.tour-cap .t{font-size:19px}.tour-next{width:42px;height:42px}}
+@media(max-width:620px){
+  /* Visite immersive : format portrait + UI réorganisée (évite le chevauchement sur petit écran) */
+  .tour{aspect-ratio:3/4}
+  .tour-cap{top:14px;left:14px;max-width:54%}
+  .tour-cap .t{font-size:19px}
+  .tour-modes{top:14px;right:14px;padding:3px}
+  .tour-mode{padding:7px 10px;font-size:11px}
+  .tour-mode .ico{width:13px;height:13px}
+  .tour-next{width:40px;height:40px;right:12px;top:44%}
+  /* Repères de lieux : une seule rangée défilable en bas, plus de superposition sur la scène */
+  .tour-ui{padding:12px 14px}
+  .tour-stops{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tour-stops::-webkit-scrollbar{display:none}
+  .tour-stop{flex:0 0 auto}
+  .tour-hint{display:none}
+}
 @media(prefers-reduced-motion:reduce){.tour-stage{transition:none}}
 
 /* ---- language switcher ---- */
