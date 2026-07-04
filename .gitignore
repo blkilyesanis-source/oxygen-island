@@ -3,6 +3,12 @@ videos/oxygen-island-prototype.html
 videos/oxygen-island-standalone.html
 videos/plage artificielle.mp4
 
+# Photos sources de la visite (versions optimisées versionnées dans tour/)
+/lagon.jpg
+/bed et lounge 1.jpg
+/bar et dj.jpg
+/restaurant.jpg
+
 # Config locale Claude (machine-spécifique)
 .claude/settings.local.json
 
