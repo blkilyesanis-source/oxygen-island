@@ -1,6 +1,6 @@
 import base64, sys, os
 
-SRC = "oxygen-island-prototype.html"
+SRC = "index.html"
 OUT = "oxygen-island-standalone.html"
 
 vids = {
