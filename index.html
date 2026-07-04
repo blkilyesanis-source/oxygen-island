@@ -199,8 +199,18 @@ section.block{padding:96px 0;position:relative}
 .foot{border-top:1px solid var(--line);padding:64px 0 40px;background:var(--ink)}
 .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:40px}
 .foot h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
-.foot a,.foot p{color:var(--sand-dim);font-size:14.5px;margin:6px 0}.foot a:hover{color:var(--lagoon-glow)}
+.foot a,.foot p{color:var(--sand-dim);font-size:14.5px;margin:6px 0;overflow-wrap:anywhere}.foot a:hover{color:var(--lagoon-glow)}
 .foot .copy{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--sand-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media(max-width:900px){
+  .foot-grid{grid-template-columns:1fr 1fr;gap:34px 26px}
+  .foot-grid > :first-child{grid-column:1 / -1}
+}
+@media(max-width:560px){
+  .foot{padding:52px 0 34px}
+  .foot-grid{grid-template-columns:1fr;gap:30px}
+  .foot-grid > :first-child{grid-column:auto}
+  .foot .copy{flex-direction:column;gap:8px;text-align:left}
+}
 
 /* RESPONSIVE */
 @media(max-width:1080px){
@@ -295,6 +305,15 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
 .imap-pin:hover .imap-dot .ico,.imap-pin.on .imap-dot .ico{color:#03201d}
 .imap-pin.on .lab,.imap-pin:hover .lab{color:var(--sand)}
 .imap-pin:focus-visible .imap-dot{outline:2px solid var(--lagoon-glow);outline-offset:3px}
+/* Carte : sur petit écran, repères en icônes seules (les libellés se chevauchent) + carte plus haute */
+@media(max-width:620px){
+  .imap{aspect-ratio:4/3}
+  .imap svg.base{height:100%}
+  .imap .lab{display:none}
+  .imap-dot{width:40px;height:40px}
+  .imap-dot .ico{width:19px;height:19px}
+  .imap-dot::before{inset:-6px}
+}
 @keyframes ping{0%{transform:scale(.85);opacity:.55}70%{opacity:0}100%{transform:scale(2.2);opacity:0}}
 .zonebox{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--ink);margin:0 0 20px;min-height:104px}
 .zonebox .zb-top{display:flex;align-items:center;gap:11px;margin-bottom:9px}
@@ -684,7 +703,7 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
       <p>Plan interactif et animé — survolez ou touchez un repère pour situer la plage, les beds, le bar, le restaurant et les services. <span class="muted sm">(Disposition illustrative en attendant le plan définitif du domaine.)</span></p></div>
     <div class="split">
       <div class="imap" id="siteMap">
-        <svg class="base" viewBox="0 0 640 420" role="img" aria-label="Plan animé du domaine Oxygen Island">
+        <svg class="base" viewBox="0 0 640 420" preserveAspectRatio="none" role="img" aria-label="Plan animé du domaine Oxygen Island">
           <defs>
             <linearGradient id="mg-sand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a2520"/><stop offset="1" stop-color="#06160f"/></linearGradient>
             <radialGradient id="mg-lagoon" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#3fe6d4"/><stop offset="55%" stop-color="#19c2b1"/><stop offset="100%" stop-color="#0a6b62"/></radialGradient>
