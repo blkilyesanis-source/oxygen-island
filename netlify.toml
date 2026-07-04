@@ -8,6 +8,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Photos de la visite immersive : cache long
+[[headers]]
+  for = "/tour/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # Pages HTML : toujours revalider pour propager les mises à jour immédiatement
 [[headers]]
   for = "/*.html"
