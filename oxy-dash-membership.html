@@ -1,0 +1,451 @@
+<!--
+  ============================================================================
+  OXYGEN ISLAND — Module dashboard "Gestion des membres et fidélité"
+  Espace Pro (admin / propriétaire). Fragment autonome à insérer tel quel.
+  ----------------------------------------------------------------------------
+  CSS ajoutée (toutes scopées sous .dash-membership) :
+    .dm-tokens (variables locales), .dm-eyebrow, .dm-head, .dm-grid,
+    .dm-card, .dm-stat, .dm-stat--argent/--or/--platine, .dm-donut,
+    .dm-legend, .dm-tablewrap, .dm-table, .dm-chip, .dm-chip--argent/--or/--platine,
+    .dm-btn, .dm-btn--ghost, .dm-pass, .dm-pass--argent/--or/--platine,
+    .dm-pass-qr, .dm-econ, .dm-econ-grid, .dm-note, .dm-sim, .dm-sr
+  JS — fonction d'init :  initDashMembership()
+  Préfixe de classe CSS :  .dm-   (tout sous .dash-membership)
+  Données simulées uniquement — aucun nom réel.
+  ============================================================================
+-->
+<section class="dash-membership" aria-labelledby="dm-title">
+  <style>
+    /* ---- Design tokens (redéclarés pour rendu standalone) ---- */
+    .dash-membership{
+      --abyss:#04211d; --abyss-2:#072b26; --ink:#03110f;
+      --lagoon:#19c2b1; --lagoon-deep:#0a6b62; --lagoon-glow:#3fe6d4;
+      --sand:#ece0c8; --sand-dim:#b9b09b; --gold:#cba85a; --amber:#e9a23b;
+      --line:rgba(236,224,200,.14); --card:rgba(255,255,255,.035); --card-hi:rgba(255,255,255,.06);
+      --shadow:0 30px 80px -30px rgba(0,0,0,.7); --r:18px;
+      --argent:#c7d0cf; --platine:#dcdfe6;
+      box-sizing:border-box; background:var(--abyss); color:var(--sand);
+      font-family:"Manrope",system-ui,-apple-system,sans-serif;
+      padding:clamp(16px,4vw,32px); line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+    }
+    .dash-membership *,.dash-membership *::before,.dash-membership *::after{box-sizing:border-box}
+    .dash-membership .dm-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+    .dash-membership :focus-visible{outline:2px solid var(--lagoon-glow);outline-offset:2px;border-radius:6px}
+
+    .dash-membership .dm-eyebrow{
+      font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+      color:var(--lagoon-glow);margin:0 0 8px;
+    }
+    .dash-membership .dm-head{margin:0 0 22px}
+    .dash-membership h2.dm-h{
+      font-family:"Fraunces",Georgia,serif;font-weight:600;
+      font-size:clamp(22px,3.4vw,30px);margin:0 0 6px;color:var(--sand);letter-spacing:.01em;
+    }
+    .dash-membership .dm-sub{margin:0;color:var(--sand-dim);font-size:14px}
+
+    .dash-membership .dm-grid{display:grid;gap:16px}
+    .dash-membership .dm-grid--3{grid-template-columns:repeat(3,1fr)}
+    @media (max-width:760px){.dash-membership .dm-grid--3{grid-template-columns:1fr}}
+
+    .dash-membership .dm-card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+      padding:18px;box-shadow:var(--shadow);
+    }
+    .dash-membership .dm-card-h{
+      display:flex;align-items:center;gap:10px;margin:0 0 14px;
+      font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:17px;color:var(--sand);
+    }
+    .dash-membership .dm-card-h svg{flex:none;color:var(--lagoon)}
+
+    /* ---- Stat cards ---- */
+    .dash-membership .dm-stat{position:relative;overflow:hidden}
+    .dash-membership .dm-stat::before{
+      content:"";position:absolute;inset:0 auto 0 0;width:4px;border-radius:4px;background:var(--accent,var(--lagoon));
+    }
+    .dash-membership .dm-stat--argent{--accent:var(--argent)}
+    .dash-membership .dm-stat--or{--accent:var(--gold)}
+    .dash-membership .dm-stat--platine{--accent:var(--platine)}
+    .dash-membership .dm-stat .dm-stat-tier{
+      display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;
+      letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 10px;
+    }
+    .dash-membership .dm-stat .dm-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+    .dash-membership .dm-stat .dm-stat-num{
+      font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:34px;line-height:1;color:var(--sand);
+    }
+    .dash-membership .dm-stat .dm-stat-lbl{font-size:13px;color:var(--sand-dim);margin-top:6px}
+    .dash-membership .dm-stat .dm-bar{height:6px;border-radius:6px;background:rgba(236,224,200,.10);margin-top:14px;overflow:hidden}
+    .dash-membership .dm-stat .dm-bar > i{display:block;height:100%;border-radius:6px;background:var(--accent)}
+
+    /* ---- Donut split ---- */
+    .dash-membership .dm-splitwrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+    .dash-membership .dm-donut{flex:none}
+    .dash-membership .dm-legend{list-style:none;margin:0;padding:0;display:grid;gap:10px;min-width:160px}
+    .dash-membership .dm-legend li{display:flex;align-items:center;gap:10px;font-size:13px}
+    .dash-membership .dm-legend .dm-sw{width:12px;height:12px;border-radius:3px;flex:none}
+    .dash-membership .dm-legend b{color:var(--sand);font-weight:700;margin-left:auto}
+
+    /* ---- Table ---- */
+    .dash-membership .dm-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .dash-membership .dm-table{width:100%;border-collapse:collapse;min-width:640px;font-size:14px}
+    .dash-membership .dm-table th,.dash-membership .dm-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+    .dash-membership .dm-table thead th{
+      font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sand-dim);
+      font-weight:700;white-space:nowrap;position:sticky;top:0;background:var(--abyss-2);
+    }
+    .dash-membership .dm-table thead th.dm-sortable{cursor:pointer;user-select:none}
+    .dash-membership .dm-table thead th.dm-sortable:hover{color:var(--sand)}
+    .dash-membership .dm-table thead th .dm-arrow{opacity:.45;font-size:10px;margin-left:4px}
+    .dash-membership .dm-table thead th[aria-sort="ascending"] .dm-arrow,
+    .dash-membership .dm-table thead th[aria-sort="descending"] .dm-arrow{opacity:1;color:var(--lagoon-glow)}
+    .dash-membership .dm-table tbody tr:hover{background:var(--card-hi)}
+    .dash-membership .dm-table td.dm-num{font-variant-numeric:tabular-nums;text-align:right}
+    .dash-membership .dm-table th.dm-num{text-align:right}
+    .dash-membership .dm-name{font-weight:600;color:var(--sand)}
+
+    /* ---- Tier chips ---- */
+    .dash-membership .dm-chip{
+      display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+      font-size:12px;font-weight:700;letter-spacing:.04em;border:1px solid transparent;white-space:nowrap;
+    }
+    .dash-membership .dm-chip .dm-dot{width:7px;height:7px;border-radius:50%}
+    .dash-membership .dm-chip--argent{color:var(--argent);background:rgba(199,208,207,.10);border-color:rgba(199,208,207,.32)}
+    .dash-membership .dm-chip--argent .dm-dot{background:var(--argent)}
+    .dash-membership .dm-chip--or{color:var(--gold);background:rgba(203,168,90,.12);border-color:rgba(203,168,90,.38)}
+    .dash-membership .dm-chip--or .dm-dot{background:var(--gold)}
+    .dash-membership .dm-chip--platine{color:var(--platine);background:rgba(220,223,230,.10);border-color:rgba(220,223,230,.34)}
+    .dash-membership .dm-chip--platine .dm-dot{background:var(--platine)}
+
+    /* ---- Buttons ---- */
+    .dash-membership .dm-btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:7px;
+      min-height:40px;padding:8px 14px;border-radius:12px;cursor:pointer;
+      font-family:inherit;font-size:13px;font-weight:700;
+      background:var(--lagoon);color:var(--ink);border:1px solid transparent;transition:transform .12s ease,background .2s ease;
+    }
+    .dash-membership .dm-btn:hover{background:var(--lagoon-glow)}
+    .dash-membership .dm-btn:active{transform:translateY(1px)}
+    .dash-membership .dm-btn--ghost{
+      background:transparent;color:var(--sand);border-color:var(--line);min-height:36px;padding:6px 12px;
+    }
+    .dash-membership .dm-btn--ghost:hover{background:var(--card-hi);border-color:var(--lagoon)}
+    .dash-membership .dm-table .dm-btn--ghost{min-height:36px}
+
+    /* ---- Carte Oxygen preview ---- */
+    .dash-membership .dm-pass{
+      position:relative;border-radius:20px;padding:22px;overflow:hidden;color:var(--ink);
+      background:linear-gradient(135deg,var(--p1,#cfd6d5),var(--p2,#9aa6a4));
+      min-height:210px;display:flex;flex-direction:column;justify-content:space-between;
+      box-shadow:var(--shadow);
+    }
+    .dash-membership .dm-pass--argent{--p1:#e3e9e8;--p2:#9faaa8}
+    .dash-membership .dm-pass--or{--p1:#f0dca6;--p2:#b98f3c;color:#2b2008}
+    .dash-membership .dm-pass--platine{--p1:#eef1f6;--p2:#b9c0cf}
+    .dash-membership .dm-pass::after{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(120px 80px at 85% 10%,rgba(255,255,255,.55),transparent 70%),
+        linear-gradient(115deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);
+      mix-blend-mode:screen;opacity:.55;
+    }
+    .dash-membership .dm-pass > *{position:relative;z-index:1}
+    .dash-membership .dm-pass-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .dash-membership .dm-pass-brand{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:15px;letter-spacing:.18em;text-transform:uppercase}
+    .dash-membership .dm-pass-tier{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(3,17,15,.16)}
+    .dash-membership .dm-pass-mid{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+    .dash-membership .dm-pass-name{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:20px;line-height:1.15}
+    .dash-membership .dm-pass-pts{font-size:12px;font-weight:700;opacity:.85;margin-top:4px;letter-spacing:.04em}
+    .dash-membership .dm-pass-pts b{font-size:20px;display:block;letter-spacing:0}
+    .dash-membership .dm-pass-qr{
+      width:62px;height:62px;border-radius:10px;background:#fff;flex:none;padding:6px;
+      display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:2px;
+    }
+    .dash-membership .dm-pass-qr span{background:var(--ink);border-radius:1px}
+    .dash-membership .dm-pass-qr span.o{background:transparent}
+    .dash-membership .dm-pass-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+    /* ---- Points economy ---- */
+    .dash-membership .dm-econ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    @media (max-width:560px){.dash-membership .dm-econ-grid{grid-template-columns:1fr}}
+    .dash-membership .dm-econ{
+      background:var(--card-hi);border:1px solid var(--line);border-radius:14px;padding:14px;
+    }
+    .dash-membership .dm-econ .k{font-size:12px;color:var(--sand-dim);display:flex;align-items:center;gap:7px}
+    .dash-membership .dm-econ .k svg{color:var(--lagoon);flex:none}
+    .dash-membership .dm-econ .v{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:26px;color:var(--sand);margin-top:8px;line-height:1}
+    .dash-membership .dm-econ .v small{font-size:13px;font-weight:600;color:var(--sand-dim);font-family:"Manrope",system-ui}
+
+    .dash-membership .dm-note{
+      margin:14px 0 0;padding:12px 14px;border-radius:12px;
+      background:rgba(25,194,177,.08);border:1px solid rgba(25,194,177,.28);
+      font-size:13px;color:var(--sand);
+    }
+    .dash-membership .dm-note svg{color:var(--lagoon-glow);vertical-align:-3px;margin-right:6px}
+
+    .dash-membership .dm-sim{
+      display:inline-flex;align-items:center;gap:7px;margin-top:18px;
+      font-size:12px;color:var(--sand-dim);letter-spacing:.04em;
+    }
+    .dash-membership .dm-sim .dm-pill{
+      width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber)
+    }
+
+    .dash-membership .dm-twocol{display:grid;grid-template-columns:1.4fr .9fr;gap:16px;margin-top:16px}
+    @media (max-width:900px){.dash-membership .dm-twocol{grid-template-columns:1fr}}
+  </style>
+
+  <header class="dm-head">
+    <p class="dm-eyebrow">Espace Pro · Fidélité</p>
+    <h2 class="dm-h" id="dm-title">Gestion des membres et fidélité</h2>
+    <p class="dm-sub">Répartition par niveau, soldes de points et aperçu de la Carte Oxygen.</p>
+  </header>
+
+  <!-- 1. Tier distribution : 3 stat cards -->
+  <div class="dm-grid dm-grid--3" role="list" aria-label="Répartition des membres par niveau">
+    <article class="dm-card dm-stat dm-stat--argent" role="listitem">
+      <p class="dm-stat-tier"><span class="dm-dot"></span>Argent</p>
+      <div class="dm-stat-num" data-count="312">312</div>
+      <div class="dm-stat-lbl">membres · <span data-pct="argent">62 %</span> de la base</div>
+      <div class="dm-bar" role="presentation"><i style="width:62%"></i></div>
+    </article>
+    <article class="dm-card dm-stat dm-stat--or" role="listitem">
+      <p class="dm-stat-tier"><span class="dm-dot"></span>Or</p>
+      <div class="dm-stat-num" data-count="146">146</div>
+      <div class="dm-stat-lbl">membres · <span data-pct="or">29 %</span> de la base</div>
+      <div class="dm-bar" role="presentation"><i style="width:29%"></i></div>
+    </article>
+    <article class="dm-card dm-stat dm-stat--platine" role="listitem">
+      <p class="dm-stat-tier"><span class="dm-dot"></span>Platine</p>
+      <div class="dm-stat-num" data-count="45">45</div>
+      <div class="dm-stat-lbl">membres · <span data-pct="platine">9 %</span> de la base</div>
+      <div class="dm-bar" role="presentation"><i style="width:9%"></i></div>
+    </article>
+  </div>
+
+  <div class="dm-twocol">
+    <!-- Members table -->
+    <section class="dm-card" aria-labelledby="dm-tbl-h">
+      <h3 class="dm-card-h" id="dm-tbl-h">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Membres
+      </h3>
+      <div class="dm-tablewrap">
+        <table class="dm-table" id="dm-members">
+          <thead>
+            <tr>
+              <th scope="col" class="dm-sortable" data-key="name" aria-sort="none">Nom <span class="dm-arrow" aria-hidden="true">▲▼</span></th>
+              <th scope="col" class="dm-sortable" data-key="tier" aria-sort="none">Niveau <span class="dm-arrow" aria-hidden="true">▲▼</span></th>
+              <th scope="col" class="dm-sortable dm-num" data-key="points" aria-sort="none">Points <span class="dm-arrow" aria-hidden="true">▲▼</span></th>
+              <th scope="col" class="dm-sortable dm-num" data-key="spend" aria-sort="none">Dépense cumulée <span class="dm-arrow" aria-hidden="true">▲▼</span></th>
+              <th scope="col" class="dm-sortable" data-key="visit" aria-sort="none">Dernière visite <span class="dm-arrow" aria-hidden="true">▲▼</span></th>
+              <th scope="col"><span class="dm-sr">Action</span></th>
+            </tr>
+          </thead>
+          <tbody id="dm-tbody"><!-- injecté par initDashMembership() --></tbody>
+        </table>
+      </div>
+      <p class="dm-sim"><span class="dm-pill"></span>Démonstration — données simulées.</p>
+    </section>
+
+    <div class="dm-grid">
+      <!-- Split donut -->
+      <section class="dm-card" aria-labelledby="dm-split-h">
+        <h3 class="dm-card-h" id="dm-split-h">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+          Répartition
+        </h3>
+        <div class="dm-splitwrap">
+          <svg class="dm-donut" width="132" height="132" viewBox="0 0 42 42" role="img" aria-label="Répartition : Argent 62 %, Or 29 %, Platine 9 %">
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="rgba(236,224,200,.10)" stroke-width="6"></circle>
+            <!-- Argent 62 -->
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#c7d0cf" stroke-width="6" stroke-dasharray="62 38" stroke-dashoffset="25"></circle>
+            <!-- Or 29 (offset = 25 - 62 = -37 -> 63) -->
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#cba85a" stroke-width="6" stroke-dasharray="29 71" stroke-dashoffset="63"></circle>
+            <!-- Platine 9 (offset = 63 - 29 = 34) -->
+            <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#dcdfe6" stroke-width="6" stroke-dasharray="9 91" stroke-dashoffset="34"></circle>
+            <text x="21" y="20.5" text-anchor="middle" font-size="6.5" fill="#ece0c8" font-family="Fraunces,Georgia,serif" font-weight="600">503</text>
+            <text x="21" y="26" text-anchor="middle" font-size="2.6" fill="#b9b09b" letter-spacing=".1">MEMBRES</text>
+          </svg>
+          <ul class="dm-legend">
+            <li><span class="dm-sw" style="background:#c7d0cf"></span>Argent <b>62 %</b></li>
+            <li><span class="dm-sw" style="background:#cba85a"></span>Or <b>29 %</b></li>
+            <li><span class="dm-sw" style="background:#dcdfe6"></span>Platine <b>9 %</b></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 3. Carte Oxygen preview -->
+      <section class="dm-card" aria-labelledby="dm-pass-h">
+        <h3 class="dm-card-h" id="dm-pass-h">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          Aperçu Carte Oxygen
+        </h3>
+        <div class="dm-pass dm-pass--platine" id="dm-pass" aria-label="Aperçu de la carte de fidélité Oxygen">
+          <div class="dm-pass-top">
+            <span class="dm-pass-brand">Oxygen Island</span>
+            <span class="dm-pass-tier" id="dm-pass-tier">Platine</span>
+          </div>
+          <div class="dm-pass-mid">
+            <div>
+              <div class="dm-pass-name" id="dm-pass-name">Membre #1042</div>
+              <div class="dm-pass-pts">Solde de points<b id="dm-pass-pts">18 540</b></div>
+            </div>
+            <div class="dm-pass-qr" id="dm-pass-qr" role="img" aria-label="QR code (espace réservé)"></div>
+          </div>
+        </div>
+        <div class="dm-pass-controls">
+          <button type="button" class="dm-btn--ghost dm-btn" data-pass="argent">Argent</button>
+          <button type="button" class="dm-btn--ghost dm-btn" data-pass="or">Or</button>
+          <button type="button" class="dm-btn--ghost dm-btn" data-pass="platine">Platine</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 4. Points economy mini panel -->
+  <section class="dm-card" aria-labelledby="dm-econ-h" style="margin-top:16px">
+    <h3 class="dm-card-h" id="dm-econ-h">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Économie des points — ce mois
+    </h3>
+    <div class="dm-econ-grid">
+      <div class="dm-econ">
+        <span class="k"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>Points émis</span>
+        <div class="v">214 800</div>
+      </div>
+      <div class="dm-econ">
+        <span class="k"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>Points échangés</span>
+        <div class="v">137 250</div>
+      </div>
+      <div class="dm-econ">
+        <span class="k"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>Valeur récompenses</span>
+        <div class="v">823 500 <small>DA</small></div>
+      </div>
+    </div>
+    <p class="dm-note">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      Les points sont une monnaie de fidélité — échangeables contre des entrées, de la restauration et des surclassements. Ils ne sont ni de l'argent, ni retirables.
+    </p>
+  </section>
+
+  <script>
+    function initDashMembership(root){
+      root = root || document.querySelector('.dash-membership');
+      if(!root || root.dataset.dmInit) return;
+      root.dataset.dmInit = '1';
+
+      var TIERS = {
+        argent:{label:'Argent', cls:'dm-chip--argent', pass:'dm-pass--argent'},
+        or:{label:'Or', cls:'dm-chip--or', pass:'dm-pass--or'},
+        platine:{label:'Platine', cls:'dm-chip--platine', pass:'dm-pass--platine'}
+      };
+
+      // ---- Simulated members (no real names) ----
+      var members = [
+        {name:'Membre #1042', tier:'platine', points:18540, spend:1240000, visit:'2026-06-18'},
+        {name:'Membre #0931', tier:'or',      points:9210,  spend:612000,  visit:'2026-06-17'},
+        {name:'Membre #1188', tier:'argent',  points:1320,  spend:84000,   visit:'2026-06-15'},
+        {name:'Membre #0774', tier:'platine', points:22110, spend:1505000, visit:'2026-06-19'},
+        {name:'Membre #1256', tier:'or',      points:7460,  spend:498000,  visit:'2026-06-12'},
+        {name:'Membre #0620', tier:'argent',  points:640,   spend:39000,   visit:'2026-06-10'},
+        {name:'Membre #1399', tier:'or',      points:11030, spend:735000,  visit:'2026-06-16'},
+        {name:'Membre #0508', tier:'argent',  points:2180,  spend:121000,  visit:'2026-06-14'},
+        {name:'Membre #1467', tier:'platine', points:16720, spend:1098000, visit:'2026-06-13'},
+        {name:'Membre #0345', tier:'argent',  points:980,   spend:57000,   visit:'2026-06-09'}
+      ];
+
+      var tierRank = {argent:1, or:2, platine:3};
+      var nf = new Intl.NumberFormat('fr-FR');
+      function fmtDate(iso){
+        var p = iso.split('-');
+        return p[2] + '/' + p[1] + '/' + p[0];
+      }
+
+      var tbody = root.querySelector('#dm-tbody');
+      function render(rows){
+        tbody.innerHTML = rows.map(function(m){
+          var t = TIERS[m.tier];
+          return '<tr>'
+            + '<td class="dm-name">' + m.name + '</td>'
+            + '<td><span class="dm-chip ' + t.cls + '"><span class="dm-dot"></span>' + t.label + '</span></td>'
+            + '<td class="dm-num">' + nf.format(m.points) + '</td>'
+            + '<td class="dm-num">' + nf.format(m.spend) + ' DA</td>'
+            + '<td>' + fmtDate(m.visit) + '</td>'
+            + '<td><button type="button" class="dm-btn dm-btn--ghost" data-manage="' + m.name + '">Gérer</button></td>'
+            + '</tr>';
+        }).join('');
+      }
+      render(members);
+
+      // ---- Sorting ----
+      var sortState = {key:null, dir:1};
+      root.querySelectorAll('.dm-table thead th.dm-sortable').forEach(function(th){
+        th.setAttribute('tabindex','0');
+        th.setAttribute('role','button');
+        function doSort(){
+          var key = th.dataset.key;
+          sortState.dir = (sortState.key === key) ? -sortState.dir : 1;
+          sortState.key = key;
+          root.querySelectorAll('.dm-table thead th').forEach(function(o){o.setAttribute('aria-sort','none');});
+          th.setAttribute('aria-sort', sortState.dir === 1 ? 'ascending' : 'descending');
+          var sorted = members.slice().sort(function(a,b){
+            var va, vb;
+            if(key === 'tier'){ va = tierRank[a.tier]; vb = tierRank[b.tier]; }
+            else if(key === 'points' || key === 'spend'){ va = a[key]; vb = b[key]; }
+            else { va = a[key]; vb = b[key]; }
+            if(va < vb) return -1 * sortState.dir;
+            if(va > vb) return  1 * sortState.dir;
+            return 0;
+          });
+          render(sorted);
+        }
+        th.addEventListener('click', doSort);
+        th.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); doSort(); }
+        });
+      });
+
+      // ---- Manage action (demo) ----
+      tbody.addEventListener('click', function(e){
+        var btn = e.target.closest('[data-manage]');
+        if(!btn) return;
+        btn.textContent = 'Ouvert…';
+        setTimeout(function(){ btn.textContent = 'Gérer'; }, 1200);
+      });
+
+      // ---- QR placeholder (deterministic pseudo-pattern, 5x5) ----
+      var qr = root.querySelector('#dm-pass-qr');
+      if(qr){
+        var pattern = '1101110001011101011100101';
+        var frag = '';
+        for(var i=0;i<25;i++){ frag += '<span class="' + (pattern[i]==='1'?'':'o') + '"></span>'; }
+        qr.innerHTML = frag;
+      }
+
+      // ---- Carte Oxygen tier switch ----
+      var sample = {
+        argent:{name:'Membre #0508', pts:'2 180'},
+        or:{name:'Membre #1399', pts:'11 030'},
+        platine:{name:'Membre #1042', pts:'18 540'}
+      };
+      var pass = root.querySelector('#dm-pass');
+      root.querySelectorAll('[data-pass]').forEach(function(b){
+        b.addEventListener('click', function(){
+          var k = b.dataset.pass;
+          pass.classList.remove('dm-pass--argent','dm-pass--or','dm-pass--platine');
+          pass.classList.add(TIERS[k].pass);
+          root.querySelector('#dm-pass-tier').textContent = TIERS[k].label;
+          root.querySelector('#dm-pass-name').textContent = sample[k].name;
+          root.querySelector('#dm-pass-pts').textContent = sample[k].pts;
+        });
+      });
+    }
+
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', function(){ initDashMembership(); });
+    } else {
+      initDashMembership();
+    }
+  </script>
+</section>

@@ -1,0 +1,521 @@
+<!--
+==================================================================================
+  OXYGEN ISLAND · ESPACE PRO · Module "Vue d'ensemble · Analytics exécutif"
+  Standalone, self-contained fragment. Drop <section class="dash-exec"> into host.
+  ---------------------------------------------------------------------------------
+  (a) CSS ADDED:
+      All styles are inside the single <style> block below, scoped under `.dash-exec`.
+      CSS class prefix used: `.dx-` (e.g. .dx-kpi, .dx-chart, .dx-heat, .dx-top).
+      Design tokens redeclared on `.dash-exec` so it renders standalone; if the host
+      already defines them in :root, the host values cascade harmlessly (same names).
+  (b) JS INIT FUNCTION:
+      Call `OxyDashExec.init()` after the markup is in the DOM.
+      Auto-inits on DOMContentLoaded if `.dash-exec` is present (idempotent).
+      Namespace: window.OxyDashExec  (no globals leak besides this one object).
+  ---------------------------------------------------------------------------------
+  NOTE: Démonstration — données simulées. En production : synchronisation temps réel
+        et export comptable.
+==================================================================================
+-->
+<section class="dash-exec" aria-labelledby="dx-title">
+  <style>
+  /* ---- Tokens (redeclared for standalone render; scoped to module) ---- */
+  .dash-exec{
+    --abyss:#04211d; --abyss-2:#072b26; --ink:#03110f;
+    --lagoon:#19c2b1; --lagoon-deep:#0a6b62; --lagoon-glow:#3fe6d4;
+    --sand:#ece0c8; --sand-dim:#b9b09b; --gold:#cba85a; --amber:#e9a23b;
+    --line:rgba(236,224,200,.14); --card:rgba(255,255,255,.035); --card-hi:rgba(255,255,255,.06);
+    --shadow:0 30px 80px -30px rgba(0,0,0,.7); --r:18px;
+    --pos:#3fe6d4; --neg:#e98b6b;
+
+    background:var(--abyss);
+    color:var(--sand);
+    font-family:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:block;
+    padding:clamp(18px,4vw,34px);
+    box-sizing:border-box;
+  }
+  .dash-exec *,.dash-exec *::before,.dash-exec *::after{box-sizing:border-box}
+  .dash-exec :focus-visible{outline:2px solid var(--lagoon-glow);outline-offset:2px;border-radius:6px}
+
+  /* ---- Header ---- */
+  .dx-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px}
+  .dx-eyebrow{font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--lagoon-glow);margin:0 0 12px}
+  .dx-head h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(24px,4vw,34px);line-height:1.05;letter-spacing:-.01em;margin:0;color:var(--sand)}
+  .dx-head .dx-sub{margin:8px 0 0;color:var(--sand-dim);font-size:14px;max-width:46ch}
+  .dx-badge{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--abyss);background:var(--lagoon-glow);padding:7px 13px;border-radius:999px;font-weight:800;white-space:nowrap}
+  .dx-seg{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+  .dx-seg button{appearance:none;border:0;background:none;color:var(--sand-dim);font:inherit;font-size:13px;font-weight:600;padding:9px 15px;min-height:40px;border-radius:999px;cursor:pointer;transition:.18s}
+  .dx-seg button:hover{color:var(--sand)}
+  .dx-seg button.on{background:var(--lagoon);color:#03201d}
+
+  /* ---- KPI grid ---- */
+  .dx-kpis{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:26px}
+  @media(min-width:560px){.dx-kpis{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:980px){.dx-kpis{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:1320px){.dx-kpis{grid-template-columns:repeat(6,1fr)}}
+  .dx-kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;min-height:128px;transition:.2s}
+  .dx-kpi:hover{border-color:var(--lagoon);background:var(--card-hi)}
+  .dx-kpi .dx-klabel{display:flex;align-items:center;gap:8px;color:var(--sand-dim);font-size:12.5px;font-weight:600;line-height:1.2}
+  .dx-kpi .dx-klabel .dx-ico{width:16px;height:16px;color:var(--lagoon-glow);flex:none}
+  .dx-kpi .dx-kn{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(26px,3.4vw,32px);color:var(--sand);line-height:1;letter-spacing:-.01em}
+  .dx-kpi .dx-kn .dx-unit{font-size:14px;color:var(--sand-dim);margin-left:4px;font-family:"Manrope",sans-serif;font-weight:600}
+  .dx-trend{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;margin-top:auto}
+  .dx-trend.up{color:var(--pos)} .dx-trend.down{color:var(--neg)}
+  .dx-trend .dx-ico{width:14px;height:14px;flex:none}
+  .dx-trend .dx-vs{color:var(--sand-dim);font-weight:500}
+
+  /* ---- Panels ---- */
+  .dx-grid{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:1080px){.dx-grid{grid-template-columns:1.6fr 1fr}}
+  .dx-panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+  .dx-panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+  .dx-panel-h h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:18px;margin:0;color:var(--sand);letter-spacing:-.01em}
+  .dx-panel-h .dx-h-meta{font-size:12px;color:var(--sand-dim)}
+  .dx-panel-body{padding:18px 20px 22px}
+
+  /* ---- Revenue chart ---- */
+  .dx-chartwrap{position:relative;width:100%;aspect-ratio:16/7;min-height:200px}
+  .dx-chart{width:100%;height:100%;display:block;overflow:visible}
+  .dx-chart .dx-grid-line{stroke:var(--line);stroke-width:1}
+  .dx-chart .dx-axis-lbl{fill:var(--sand-dim);font-size:9px;font-family:"Manrope",sans-serif}
+  .dx-chart .dx-bar{fill:var(--lagoon-deep);transition:fill .15s}
+  .dx-chart .dx-bar.hot{fill:var(--lagoon)}
+  .dx-chart .dx-bar:hover,.dx-chart .dx-bar:focus-visible{fill:var(--lagoon-glow);outline:none}
+  .dx-chart .dx-area{fill:url(#dxGrad);opacity:.9}
+  .dx-chart .dx-line{fill:none;stroke:var(--lagoon-glow);stroke-width:2;stroke-linejoin:round}
+  .dx-tip{position:absolute;pointer-events:none;background:var(--abyss-2);border:1px solid var(--lagoon-deep);border-radius:10px;padding:8px 11px;font-size:12px;color:var(--sand);box-shadow:0 12px 30px -10px #000;transform:translate(-50%,-115%);white-space:nowrap;opacity:0;transition:opacity .12s;z-index:5}
+  .dx-tip b{color:var(--lagoon-glow);font-weight:700}
+  .dx-tip .dx-tip-d{color:var(--sand-dim);font-size:11px;display:block}
+  .dx-chart-foot{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12px;color:var(--sand-dim)}
+  .dx-chart-foot .dx-lg{display:inline-flex;align-items:center;gap:6px}
+  .dx-chart-foot .dx-sw{width:12px;height:12px;border-radius:3px;flex:none}
+
+  /* ---- Right column: heat strip + top offers ---- */
+  .dx-side{display:grid;grid-template-columns:1fr;gap:18px}
+
+  /* Heat strip */
+  .dx-heat{display:grid;grid-template-columns:auto repeat(7,1fr);gap:6px;align-items:center}
+  .dx-heat .dx-h-corner{font-size:11px;color:var(--sand-dim)}
+  .dx-heat .dx-h-day{text-align:center;font-size:11px;font-weight:700;color:var(--sand-dim);text-transform:uppercase;letter-spacing:.04em}
+  .dx-heat .dx-h-row{font-size:11px;color:var(--sand-dim);white-space:nowrap;padding-right:4px}
+  .dx-cell{aspect-ratio:1/1;min-height:30px;border-radius:7px;border:1px solid var(--line);position:relative;cursor:default;transition:transform .12s}
+  .dx-cell:hover,.dx-cell:focus-visible{transform:scale(1.08);outline:none;border-color:var(--lagoon-glow);z-index:2}
+  .dx-cell[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--abyss-2);border:1px solid var(--lagoon-deep);color:var(--sand);font-size:11px;padding:5px 8px;border-radius:7px;white-space:nowrap;box-shadow:0 10px 24px -8px #000;z-index:6}
+  .dx-heat-legend{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:11px;color:var(--sand-dim);flex-wrap:wrap}
+  .dx-heat-legend .dx-ramp{display:flex;height:10px;border-radius:6px;overflow:hidden;width:120px;border:1px solid var(--line)}
+  .dx-heat-legend .dx-ramp span{flex:1}
+
+  /* Top offers */
+  .dx-top{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none;counter-reset:dxrank}
+  .dx-top li{counter-increment:dxrank}
+  .dx-top .dx-top-r{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+  .dx-top .dx-rank{width:24px;height:24px;flex:none;border-radius:7px;background:rgba(25,194,177,.12);border:1px solid var(--line);color:var(--lagoon-glow);font-weight:800;font-size:12px;display:grid;place-items:center}
+  .dx-top .dx-top-r .dx-name{font-weight:600;font-size:14px;color:var(--sand)}
+  .dx-top .dx-top-r .dx-val{margin-left:auto;font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:15px;color:var(--sand);white-space:nowrap}
+  .dx-top .dx-top-r .dx-pct{color:var(--sand-dim);font-size:12px;margin-left:8px;font-family:"Manrope",sans-serif}
+  .dx-track{height:8px;border-radius:999px;background:rgba(236,224,200,.08);overflow:hidden}
+  .dx-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--lagoon-glow),var(--lagoon-deep));width:0;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+
+  /* ---- Disclaimer ---- */
+  .dx-note{display:flex;align-items:center;gap:9px;margin-top:22px;padding:12px 15px;border:1px dashed var(--line);border-radius:12px;background:rgba(203,168,90,.05);color:var(--sand-dim);font-size:12.5px;line-height:1.5}
+  .dx-note .dx-ico{width:17px;height:17px;color:var(--gold);flex:none}
+  .dx-note b{color:var(--sand);font-weight:700}
+
+  @media (prefers-reduced-motion:reduce){
+    .dash-exec *{transition:none!important;animation:none!important}
+  }
+  </style>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="dx-head">
+    <div>
+      <p class="dx-eyebrow">Espace Pro · Pilotage</p>
+      <h2 id="dx-title">Vue d'ensemble · Analytics exécutif</h2>
+      <p class="dx-sub">Vos indicateurs clés en un coup d'œil. Gardez la main sur le revenu, le remplissage et la conversion, sans dépendre de personne.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px">
+      <span class="dx-badge">Données simulées</span>
+      <div class="dx-seg" role="group" aria-label="Période d'analyse">
+        <button type="button" data-range="7">7 j</button>
+        <button type="button" class="on" data-range="30" aria-pressed="true">30 j</button>
+        <button type="button" data-range="90">90 j</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== KPI TILES ===================== -->
+  <div class="dx-kpis" role="list" aria-label="Indicateurs de performance">
+
+    <div class="dx-kpi" role="listitem">
+      <span class="dx-klabel">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Revenu confirmé
+      </span>
+      <span class="dx-kn">1 842 500<span class="dx-unit">DA</span></span>
+      <span class="dx-trend up">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        +14,2 % <span class="dx-vs">vs période préc.</span>
+      </span>
+    </div>
+
+    <div class="dx-kpi" role="listitem">
+      <span class="dx-klabel">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Réservations confirmées
+      </span>
+      <span class="dx-kn">486</span>
+      <span class="dx-trend up">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        +9,1 % <span class="dx-vs">vs période préc.</span>
+      </span>
+    </div>
+
+    <div class="dx-kpi" role="listitem">
+      <span class="dx-klabel">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Taux de remplissage du jour
+      </span>
+      <span class="dx-kn">78<span class="dx-unit">%</span></span>
+      <span class="dx-trend up">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        +6,0 pts <span class="dx-vs">vs hier</span>
+      </span>
+    </div>
+
+    <div class="dx-kpi" role="listitem">
+      <span class="dx-klabel">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Panier moyen
+      </span>
+      <span class="dx-kn">3 790<span class="dx-unit">DA</span></span>
+      <span class="dx-trend up">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        +4,7 % <span class="dx-vs">vs période préc.</span>
+      </span>
+    </div>
+
+    <div class="dx-kpi" role="listitem">
+      <span class="dx-klabel">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Demandes en attente
+      </span>
+      <span class="dx-kn">23</span>
+      <span class="dx-trend down">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        -12,0 % <span class="dx-vs">vs période préc.</span>
+      </span>
+    </div>
+
+    <div class="dx-kpi" role="listitem">
+      <span class="dx-klabel">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Conversion devis → confirmé
+      </span>
+      <span class="dx-kn">61<span class="dx-unit">%</span></span>
+      <span class="dx-trend up">
+        <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        +3,4 pts <span class="dx-vs">vs période préc.</span>
+      </span>
+    </div>
+
+  </div>
+
+  <!-- ===================== MAIN GRID ===================== -->
+  <div class="dx-grid">
+
+    <!-- Revenue chart panel -->
+    <section class="dx-panel" aria-labelledby="dx-chart-title">
+      <div class="dx-panel-h">
+        <h3 id="dx-chart-title">Revenu sur 30 jours</h3>
+        <span class="dx-h-meta" id="dx-chart-meta">Total période · 1 842 500 DA</span>
+      </div>
+      <div class="dx-panel-body">
+        <div class="dx-chartwrap">
+          <svg class="dx-chart" id="dx-chart" viewBox="0 0 600 262" preserveAspectRatio="none"
+               role="img" aria-label="Histogramme du revenu quotidien sur les 30 derniers jours, données simulées">
+            <defs>
+              <linearGradient id="dxGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--lagoon)" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="var(--lagoon)" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- gridlines + bars injected by JS -->
+          </svg>
+          <div class="dx-tip" id="dx-tip" role="status" aria-live="polite"></div>
+        </div>
+        <div class="dx-chart-foot">
+          <span class="dx-lg"><span class="dx-sw" style="background:var(--lagoon)"></span>Jour fort (week-end / afterwork)</span>
+          <span class="dx-lg"><span class="dx-sw" style="background:var(--lagoon-deep)"></span>Jour de semaine</span>
+          <span class="dx-lg" style="margin-left:auto">Survolez une barre pour le détail</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right column -->
+    <div class="dx-side">
+
+      <!-- Occupancy heat strip -->
+      <section class="dx-panel" aria-labelledby="dx-heat-title">
+        <div class="dx-panel-h">
+          <h3 id="dx-heat-title">Remplissage par créneau</h3>
+          <span class="dx-h-meta">7 jours</span>
+        </div>
+        <div class="dx-panel-body">
+          <div class="dx-heat" id="dx-heat" role="img" aria-label="Carte de chaleur du taux de remplissage par jour et créneau, données simulées">
+            <!-- injected by JS -->
+          </div>
+          <div class="dx-heat-legend">
+            <span>Faible</span>
+            <span class="dx-ramp" aria-hidden="true">
+              <span style="background:rgba(25,194,177,.12)"></span>
+              <span style="background:rgba(25,194,177,.32)"></span>
+              <span style="background:rgba(25,194,177,.55)"></span>
+              <span style="background:rgba(25,194,177,.78)"></span>
+              <span style="background:var(--lagoon-glow)"></span>
+            </span>
+            <span>Complet</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Top offers -->
+      <section class="dx-panel" aria-labelledby="dx-top-title">
+        <div class="dx-panel-h">
+          <h3 id="dx-top-title">Top offres</h3>
+          <span class="dx-h-meta">Part du revenu</span>
+        </div>
+        <div class="dx-panel-body">
+          <ol class="dx-top" id="dx-top" aria-label="Classement des offres par part de revenu, données simulées">
+            <!-- injected by JS -->
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ===================== DISCLAIMER ===================== -->
+  <p class="dx-note">
+    <svg class="dx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Démonstration — données simulées.</b> En production : synchronisation temps réel et export comptable.</span>
+  </p>
+
+  <!-- ===================== INIT SCRIPT ===================== -->
+  <script>
+  (function(){
+    "use strict";
+    if (window.OxyDashExec && window.OxyDashExec.__loaded) return;
+
+    var NF = new Intl.NumberFormat('fr-FR');
+
+    // --- Simulated 30-day revenue series (plausible seasonal beach venue, DA) ---
+    function buildSeries(){
+      var days = [], today = new Date(2026, 5, 20); // 2026-06-20
+      var moNames = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+      for (var i = 29; i >= 0; i--){
+        var d = new Date(today); d.setDate(today.getDate() - i);
+        var dow = d.getDay(); // 0 dim … 6 sam
+        var weekend = (dow === 5 || dow === 6 || dow === 4); // jeu/ven/sam = afterwork + week-end
+        var base = weekend ? 78000 : 42000;
+        // deterministic pseudo-noise so the demo is stable
+        var noise = (Math.sin(i * 1.7) * 0.5 + Math.cos(i * 0.6) * 0.5) * 11000;
+        var val = Math.max(18000, Math.round((base + noise) / 500) * 500);
+        days.push({ label: d.getDate() + ' ' + moNames[d.getMonth()], short: String(d.getDate()), value: val, hot: weekend });
+      }
+      return days;
+    }
+
+    function renderChart(series){
+      var svg = document.getElementById('dx-chart');
+      var tip = document.getElementById('dx-tip');
+      var wrap = svg.parentNode;
+      if (!svg) return;
+      var W = 600, H = 262, padL = 40, padR = 6, padT = 12, padB = 24;
+      var plotW = W - padL - padR, plotH = H - padT - padB;
+      var max = Math.max.apply(null, series.map(function(s){ return s.value; }));
+      var niceMax = Math.ceil(max / 20000) * 20000;
+
+      // clear (keep <defs>)
+      Array.prototype.slice.call(svg.querySelectorAll('.dx-bar,.dx-grid-line,.dx-axis-lbl')).forEach(function(n){ n.remove(); });
+      var NS = 'http://www.w3.org/2000/svg';
+
+      // horizontal gridlines + y labels (4 steps)
+      for (var g = 0; g <= 4; g++){
+        var yv = niceMax * g / 4;
+        var y = padT + plotH - (yv / niceMax) * plotH;
+        var ln = document.createElementNS(NS, 'line');
+        ln.setAttribute('class', 'dx-grid-line');
+        ln.setAttribute('x1', padL); ln.setAttribute('x2', W - padR);
+        ln.setAttribute('y1', y); ln.setAttribute('y2', y);
+        svg.appendChild(ln);
+        var tx = document.createElementNS(NS, 'text');
+        tx.setAttribute('class', 'dx-axis-lbl');
+        tx.setAttribute('x', padL - 6); tx.setAttribute('y', y + 3);
+        tx.setAttribute('text-anchor', 'end');
+        tx.textContent = (yv / 1000) + 'k';
+        svg.appendChild(tx);
+      }
+
+      var n = series.length;
+      var slot = plotW / n;
+      var bw = slot * 0.62;
+
+      series.forEach(function(s, i){
+        var bh = (s.value / niceMax) * plotH;
+        var x = padL + i * slot + (slot - bw) / 2;
+        var y = padT + plotH - bh;
+        var r = document.createElementNS(NS, 'rect');
+        r.setAttribute('class', 'dx-bar' + (s.hot ? ' hot' : ''));
+        r.setAttribute('x', x); r.setAttribute('y', y);
+        r.setAttribute('width', bw); r.setAttribute('height', Math.max(2, bh));
+        r.setAttribute('rx', 3);
+        r.setAttribute('tabindex', '0');
+        r.setAttribute('role', 'listitem');
+        r.setAttribute('aria-label', s.label + ' : ' + NF.format(s.value) + ' DA');
+        // tooltip handlers
+        function show(){
+          tip.innerHTML = '<b>' + NF.format(s.value) + ' DA</b><span class="dx-tip-d">' + s.label + '</span>';
+          var cx = (x + bw / 2) / W * wrap.clientWidth;
+          var cy = y / H * wrap.clientHeight;
+          tip.style.left = cx + 'px';
+          tip.style.top = cy + 'px';
+          tip.style.opacity = '1';
+        }
+        function hide(){ tip.style.opacity = '0'; }
+        r.addEventListener('mouseenter', show);
+        r.addEventListener('mousemove', show);
+        r.addEventListener('mouseleave', hide);
+        r.addEventListener('focus', show);
+        r.addEventListener('blur', hide);
+        svg.appendChild(r);
+
+        // x labels: every 5th day
+        if (i % 5 === 0 || i === n - 1){
+          var xt = document.createElementNS(NS, 'text');
+          xt.setAttribute('class', 'dx-axis-lbl');
+          xt.setAttribute('x', x + bw / 2); xt.setAttribute('y', H - 8);
+          xt.setAttribute('text-anchor', 'middle');
+          xt.textContent = s.short;
+          svg.appendChild(xt);
+        }
+      });
+
+      var total = series.reduce(function(a, s){ return a + s.value; }, 0);
+      var meta = document.getElementById('dx-chart-meta');
+      if (meta) meta.textContent = 'Total période · ' + NF.format(total) + ' DA';
+    }
+
+    // --- Occupancy heat strip: 7 days × 3 créneaux ---
+    function renderHeat(){
+      var host = document.getElementById('dx-heat');
+      if (!host) return;
+      host.innerHTML = '';
+      var days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+      var rows = ['Matin','Après-midi','Afterwork'];
+      // fill rates (%) per row per day — plausible: weekend + afterwork peak
+      var data = [
+        [40,38,45,55,68,82,72], // matin
+        [62,58,64,70,86,95,90], // après-midi
+        [30,34,42,72,92,98,80]  // afterwork
+      ];
+      function colorFor(p){
+        var a = Math.max(.1, Math.min(1, p / 100));
+        if (p >= 92) return 'var(--lagoon-glow)';
+        return 'rgba(25,194,177,' + a.toFixed(2) + ')';
+      }
+      // corner
+      var corner = document.createElement('div');
+      corner.className = 'dx-h-corner'; corner.textContent = '';
+      host.appendChild(corner);
+      days.forEach(function(d){
+        var c = document.createElement('div'); c.className = 'dx-h-day'; c.textContent = d; host.appendChild(c);
+      });
+      rows.forEach(function(rname, ri){
+        var lbl = document.createElement('div'); lbl.className = 'dx-h-row'; lbl.textContent = rname; host.appendChild(lbl);
+        data[ri].forEach(function(p, di){
+          var cell = document.createElement('div');
+          cell.className = 'dx-cell';
+          cell.style.background = colorFor(p);
+          cell.setAttribute('tabindex', '0');
+          cell.setAttribute('data-tip', days[di] + ' · ' + rname + ' : ' + p + ' %');
+          cell.setAttribute('aria-label', days[di] + ' ' + rname + ', remplissage ' + p + ' pour cent');
+          host.appendChild(cell);
+        });
+      });
+    }
+
+    // --- Top offers ---
+    function renderTop(){
+      var host = document.getElementById('dx-top');
+      if (!host) return;
+      host.innerHTML = '';
+      var offers = [
+        { name: 'Bed 2 personnes',   rev: 642000, pct: 34.8 },
+        { name: 'Accès individuel',  rev: 489500, pct: 26.6 },
+        { name: 'Afterwork',         rev: 372000, pct: 20.2 },
+        { name: 'Anniversaire',      rev: 198000, pct: 10.7 },
+        { name: 'Carré privatif',    rev: 141000, pct:  7.7 }
+      ];
+      var maxPct = Math.max.apply(null, offers.map(function(o){ return o.pct; }));
+      offers.forEach(function(o, i){
+        var li = document.createElement('li');
+        var row = document.createElement('div'); row.className = 'dx-top-r';
+        row.innerHTML =
+          '<span class="dx-rank" aria-hidden="true">' + (i + 1) + '</span>' +
+          '<span class="dx-name">' + o.name + '</span>' +
+          '<span class="dx-val">' + NF.format(o.rev) + ' DA<span class="dx-pct">' + o.pct.toString().replace('.', ',') + ' %</span></span>';
+        var track = document.createElement('div'); track.className = 'dx-track';
+        var fill = document.createElement('div'); fill.className = 'dx-fill';
+        track.appendChild(fill);
+        li.appendChild(row); li.appendChild(track);
+        host.appendChild(li);
+        // animate fill (relative to leader for visual punch)
+        requestAnimationFrame(function(){
+          fill.style.width = (o.pct / maxPct * 100).toFixed(1) + '%';
+        });
+      });
+    }
+
+    // --- Range segmented control (demo: re-renders 30d series; label only for 7/90) ---
+    function wireRange(){
+      var seg = document.querySelector('.dash-exec .dx-seg');
+      if (!seg) return;
+      seg.addEventListener('click', function(e){
+        var b = e.target.closest('button[data-range]');
+        if (!b) return;
+        seg.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); x.removeAttribute('aria-pressed'); });
+        b.classList.add('on'); b.setAttribute('aria-pressed', 'true');
+        // Demo: full 30-day series stays; only the chart title context would change in prod.
+        var t = document.getElementById('dx-chart-title');
+        var lbl = { '7': 'Revenu sur 7 jours', '30': 'Revenu sur 30 jours', '90': 'Revenu sur 90 jours' };
+        if (t) t.textContent = lbl[b.getAttribute('data-range')] || t.textContent;
+      });
+    }
+
+    var API = {
+      __loaded: true,
+      init: function(){
+        var root = document.querySelector('.dash-exec');
+        if (!root) return;
+        renderChart(buildSeries());
+        renderHeat();
+        renderTop();
+        wireRange();
+        // reflow chart tooltip positions on resize
+        window.addEventListener('resize', function(){
+          renderChart(buildSeries());
+        });
+      }
+    };
+    window.OxyDashExec = API;
+
+    if (document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', function(){ API.init(); });
+    } else {
+      API.init();
+    }
+  })();
+  </script>
+</section>

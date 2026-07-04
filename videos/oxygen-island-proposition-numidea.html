@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposition — Écosystème digital Oxygen Island · Numidea Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --abyss:#04211d;--abyss-2:#072b26;--ink:#03110f;
+  --lagoon:#19c2b1;--lagoon-deep:#0a6b62;--lagoon-glow:#3fe6d4;
+  --sand:#ece0c8;--sand-dim:#b9b09b;--gold:#cba85a;--amber:#e9a23b;
+  --mist:#f3f8f6;--line:rgba(236,224,200,.14);
+  --card:rgba(255,255,255,.035);--card-hi:rgba(255,255,255,.06);
+  --shadow:0 30px 80px -30px rgba(0,0,0,.7);--r:18px;
+  --pos:#3fe6d4;--neg:#e98b6b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--abyss);color:var(--sand);
+  font-family:"Manrope",system-ui,sans-serif;font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;font-weight:600;line-height:1.08;letter-spacing:-.01em}
+p{margin:0 0 14px}
+strong{color:var(--mist);font-weight:600}
+.wrap{max-width:920px;margin:0 auto;padding:0 26px}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--lagoon-glow);margin:0 0 16px}
+.muted{color:var(--sand-dim)}.gold{color:var(--gold)}
+.sm{font-size:13.5px}
+section{padding:72px 0;position:relative}
+.tide{height:1px;background:linear-gradient(90deg,transparent,var(--line) 18%,var(--line) 82%,transparent)}
+
+/* COVER */
+.cover{min-height:82vh;display:flex;align-items:center;overflow:hidden;
+  background:
+   radial-gradient(120% 80% at 82% -10%,#0c4a44 0%,transparent 55%),
+   radial-gradient(120% 100% at 6% 112%,#0a3833 0%,transparent 50%),
+   linear-gradient(180deg,#062b26 0%,#04211d 60%,#03100e 100%)}
+.cover h1{font-size:clamp(38px,7vw,72px);margin:.15em 0 .3em;max-width:16ch}
+.cover h1 .liquid{background:linear-gradient(120deg,var(--lagoon-glow),var(--amber));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.cover .lede{font-size:clamp(16px,2.1vw,20px);max-width:52ch;color:var(--sand)}
+.cover-meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:38px;padding-top:26px;border-top:1px solid var(--line)}
+.cover-meta div .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--sand-dim)}
+.cover-meta div .v{font-family:"Fraunces";font-size:17px;color:var(--mist);margin-top:3px}
+.mark{width:40px;height:40px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--lagoon-glow),var(--lagoon) 42%,var(--lagoon-deep) 92%);
+  box-shadow:0 0 0 4px rgba(25,194,177,.12),0 6px 20px -6px var(--lagoon);margin-bottom:26px}
+
+/* HEADINGS */
+.shead{max-width:64ch;margin-bottom:36px}
+.shead h2{font-size:clamp(27px,4.2vw,40px);margin:0 0 14px}
+.shead h2 .num{color:var(--lagoon-deep);font-size:.7em;margin-right:12px}
+.shead p{color:var(--sand-dim);font-size:17px;margin:0}
+
+/* CARDS / GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;background:var(--card)}
+.card.hi{border-color:rgba(203,168,90,.4);background:linear-gradient(180deg,rgba(203,168,90,.07),var(--card))}
+.card .ci{color:var(--lagoon-glow);font-family:"Fraunces";font-size:14px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;display:block}
+.card h3{font-size:21px;margin:0 0 10px}
+.card h4{font-size:16px;margin:0 0 6px;color:var(--mist)}
+.card p{font-size:14.5px;color:var(--sand-dim);margin:0 0 10px}
+.card p:last-child{margin-bottom:0}
+
+/* LEVER blocks */
+.lever{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:30px 28px;margin-bottom:16px}
+.lever-h{display:flex;align-items:baseline;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.lever-h .n{font-family:"Fraunces";font-size:34px;color:var(--lagoon-deep);line-height:1}
+.lever-h h3{font-size:24px;margin:0}
+.lever-h .tag{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#03201d;background:var(--lagoon);padding:5px 12px;border-radius:999px;align-self:center}
+.lever dl{display:grid;grid-template-columns:150px 1fr;gap:10px 18px;margin:0}
+.lever dt{color:var(--lagoon-glow);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding-top:2px}
+.lever dd{margin:0;font-size:14.5px;color:var(--sand)}
+
+/* INLINE LIST */
+ul.clean{list-style:none;padding:0;margin:0}
+ul.clean li{position:relative;padding:8px 0 8px 30px;font-size:15px;color:var(--sand);border-bottom:1px solid var(--line)}
+ul.clean li:last-child{border-bottom:0}
+ul.clean li:before{content:"";position:absolute;left:4px;top:15px;width:9px;height:9px;border-radius:50%;
+  background:var(--lagoon);box-shadow:0 0 0 4px rgba(25,194,177,.14)}
+ul.clean li b{color:var(--mist)}
+
+/* PHASES */
+.phase{display:grid;grid-template-columns:56px 1fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line)}
+.phase:last-child{border-bottom:0}
+.phase .pn{font-family:"Fraunces";font-size:15px;color:#03201d;background:var(--lagoon-glow);
+  width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.phase.two .pn{background:var(--gold);color:#241a05}
+.phase.three .pn{background:var(--card-hi);color:var(--lagoon-glow);border:1px solid var(--line)}
+.phase h3{font-size:20px;margin:0 0 4px}
+.phase .when{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--sand-dim);margin-bottom:10px}
+.phase p{font-size:14.5px;color:var(--sand-dim);margin:0 0 8px}
+
+/* CALLOUT */
+.callout{border-left:3px solid var(--lagoon);background:var(--card);padding:20px 24px;border-radius:0 var(--r) var(--r) 0;margin:22px 0}
+.callout p{margin:0;font-size:15.5px}
+.ph{color:var(--amber);font-weight:700;background:rgba(233,162,59,.1);padding:1px 8px;border-radius:6px}
+
+/* CTA */
+.cta{text-align:center;padding:80px 26px 90px}
+.cta h2{font-size:clamp(28px,5vw,46px);margin:0 0 16px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:inherit;font-weight:700;font-size:15px;
+  padding:15px 26px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;
+  background:linear-gradient(120deg,var(--lagoon),var(--lagoon-deep));color:#03201d;
+  box-shadow:0 12px 30px -10px var(--lagoon);margin-top:8px}
+.foot{padding:40px 0 60px;text-align:center;color:var(--sand-dim);font-size:13px}
+
+@media (max-width:720px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .lever dl{grid-template-columns:1fr}
+  .lever dt{padding-top:8px}
+  .phase{grid-template-columns:1fr;gap:12px}
+}
+@media print{
+  body{background:#fff;color:#0d1f1b;font-size:12px}
+  .cover{background:#f4f1e8;min-height:auto;padding:40px 0}
+  section{padding:34px 0;break-inside:avoid}
+  .card,.lever,.email,.callout{break-inside:avoid}
+  .muted,.shead p,.card p,.lever .when,.phase p{color:#4a5a54}
+  .cover h1 .liquid{color:#0a6b62;-webkit-text-fill-color:#0a6b62}
+  .btn{display:none}
+  a{color:#0a6b62}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<header class="cover">
+  <div class="wrap">
+    <div class="mark"></div>
+    <p class="eyebrow">Proposition confidentielle · Numidea Labs × Oxygen Island</p>
+    <h1>Bien plus qu'un site.<br>Le <span class="liquid">système</span> qui fait tourner l'île.</h1>
+    <p class="lede">Un écosystème digital pensé pour une plage saisonnière algéroise : remplir les beds, centraliser les réservations, et faire revenir vos clients — sans dépendre d'un carnet ni d'un seul téléphone.</p>
+    <div class="cover-meta">
+      <div><div class="k">Préparé pour</div><div class="v">Les propriétaires — Oxygen Island</div></div>
+      <div><div class="k">Par</div><div class="v">Belkacem Ilyes Anis · Numidea Labs</div></div>
+      <div><div class="k">Objet</div><div class="v">Fiche technique commerciale</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="tide"></div>
+
+<!-- 01 — CE QUE NOUS AVONS COMPRIS -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Le point de départ</p>
+      <h2><span class="num">01</span>Ce que nous avons compris de votre activité.</h2>
+      <p>Avant de dessiner une ligne de code, nous avons regardé comment fonctionne réellement une plage artificielle à Alger. Voici ce que le digital doit résoudre — pas ce qu'une agence a envie de vendre.</p>
+    </div>
+    <ul class="clean">
+      <li><b>Votre revenu est saisonnier et périssable.</b> Un bed vide un samedi de juillet ne se rattrape pas. Chaque no-show et chaque place non vendue est une perte sèche sur une fenêtre courte.</li>
+      <li><b>La réservation vit sur WhatsApp, le téléphone et un carnet.</b> Efficace à petite échelle, ingérable en pic — et totalement dépendant de la personne qui tient le téléphone ce jour-là.</li>
+      <li><b>Le paiement en ligne par carte reste fragile en Algérie.</b> Un tunnel de paiement classique n'est pas le bon outil ici. Le bon réflexe local, c'est WhatsApp.</li>
+      <li><b>Vous ne savez pas encore qui revient, quand, ni combien il dépense.</b> Cette donnée existe déjà à chaque visite — elle n'est simplement captée nulle part.</li>
+      <li><b>Votre image est premium. Vos outils de gestion, non.</b> L'écart entre l'expérience sur place et l'expérience de réservation est aujourd'hui votre premier point de friction.</li>
+    </ul>
+    <div class="callout"><p>Un site vitrine ne règle aucun de ces points. Un <strong>système</strong> les règle tous les cinq. C'est la différence entre une dépense et un investissement.</p></div>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- 02 — CE N'EST PAS UN CONCEPT -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">La preuve, pas la promesse</p>
+      <h2><span class="num">02</span>Ce n'est pas une maquette. Le système fonctionne déjà.</h2>
+      <p>La plupart des propositions vous demandent d'imaginer le résultat. Nous vous l'avons construit. Le prototype ci-joint est un produit vivant, trilingue (français, arabe, anglais), utilisable dès maintenant sur mobile.</p>
+    </div>
+    <div class="grid3">
+      <div class="card"><span class="ci">Côté client</span><h4>Vitrine immersive</h4><p>Accueil, vidéos tournées sur place, plan interactif du domaine, offres et carte de restauration.</p></div>
+      <div class="card"><span class="ci">Côté client</span><h4>Réservation → QR-pass</h4><p>Le client compose son devis, l'envoie sur votre WhatsApp, et reçoit un QR-pass scannable à l'accueil.</p></div>
+      <div class="card"><span class="ci">Côté client</span><h4>Adhésion et fidélité</h4><p>Trois niveaux (Argent · Or · Platine), points sur chaque dépense, avantages membres réels.</p></div>
+      <div class="card hi"><span class="ci">Espace Pro</span><h4>Activité en direct</h4><p>Chaque réservation arrive dans un tableau de bord : file d'attente, confirmation, upsell, cartes clients, remplissage du jour.</p></div>
+      <div class="card hi"><span class="ci">Espace Pro</span><h4>Analytics exécutif</h4><p>Revenu sur 30 jours, remplissage par créneau, top des offres. Vue 7 / 30 / 90 jours.</p></div>
+      <div class="card hi"><span class="ci">Espace Pro</span><h4>Campagnes WhatsApp</h4><p>Segments clients, campagnes ciblées avec taux d'ouverture, et automatisations déjà câblées.</p></div>
+    </div>
+    <div class="callout"><p>Une agence envoie des slides. Nous vous remettons un système trilingue avec trois tableaux de bord opérationnels. <strong>La question n'est pas « est-ce que ça peut marcher ». C'est « quand est-ce qu'on le met en ligne ».</strong></p></div>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- 03 — LES TROIS LEVIERS -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Là où l'argent se joue</p>
+      <h2><span class="num">03</span>Trois leviers. Rien de superflu.</h2>
+      <p>Le système fait beaucoup de choses. Mais trois seulement déplacent votre chiffre. Nous les avons conçus pour ça — le reste sert ces trois-là.</p>
+    </div>
+
+    <div class="lever">
+      <div class="lever-h"><span class="n">1</span><h3>Remplir l'île</h3><span class="tag">Revenu</span></div>
+      <dl>
+        <dt>Ce que c'est</dt><dd>Réservation en ligne avec devis, envoi WhatsApp, et QR-pass qui rassemble toute la commande — scanné à l'accueil, sans file d'attente.</dd>
+        <dt>Pour le client</dt><dd>Il réserve à l'avance, arrive, profite. Fini les DM perdus, l'attente à l'entrée, l'incertitude sur la disponibilité d'un bed.</dd>
+        <dt>Pour vous</dt><dd>Chaque réservation confirmée est un engagement. Moins de no-shows, une arrivée fluide, et une première impression à la hauteur du lieu.</dd>
+        <dt>Impact</dt><dd>Une place réservée est une place vendue. Sur une saison courte, chaque bed rempli en avance est une perte évitée.</dd>
+      </dl>
+    </div>
+
+    <div class="lever">
+      <div class="lever-h"><span class="n">2</span><h3>Tout au même endroit</h3><span class="tag">Opérations</span></div>
+      <dl>
+        <dt>Ce que c'est</dt><dd>Un espace pro où chaque demande atterrit instantanément : file entrante, confirmation en un geste, cartes clients, revenu et remplissage du jour.</dd>
+        <dt>Pour le client</dt><dd>Une réponse rapide et une confirmation propre, à chaque fois — au lieu d'un message qui se perd dans une conversation.</dd>
+        <dt>Pour vous</dt><dd>Plus de WhatsApp éparpillé, plus de cahier, plus de dépendance à une seule personne. L'équipe voit la même chose, en direct.</dd>
+        <dt>Impact</dt><dd>Vous tenez le pic sans chaos. La gestion devient un poste transmissible, pas un savoir dans une tête.</dd>
+      </dl>
+    </div>
+
+    <div class="lever">
+      <div class="lever-h"><span class="n">3</span><h3>Les faire revenir</h3><span class="tag">Fidélité</span></div>
+      <dl>
+        <dt>Ce que c'est</dt><dd>Carte de fidélité à points, trois niveaux, et un CRM WhatsApp avec automatisations : bienvenue, rappel J-1, relance des inactifs, offre anniversaire.</dd>
+        <dt>Pour le client</dt><dd>Des points sur chaque dépense, des prix membres, un accès prioritaire aux beds et aux soirées. Une raison concrète de revenir.</dd>
+        <dt>Pour vous</dt><dd>Vous parlez à vos clients là où ils sont déjà — avec leur consentement. Une soirée molle se remplit par un message ciblé aux bons segments.</dd>
+        <dt>Impact</dt><dd>C'est l'actif qui compose. Remplir les creux de semaine et faire revenir un client coûte bien moins que d'en acquérir un nouveau.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- 04 — LE BON CHOIX POUR LE MARCHÉ ALGÉRIEN -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Notre différence</p>
+      <h2><span class="num">04</span>Conçu pour le marché algérien — pas adapté à la va-vite.</h2>
+      <p>C'est là qu'une agence étrangère se trompe, et qu'un système générique casse. Nous avons construit autour du terrain, pas contre lui.</p>
+    </div>
+    <div class="grid2">
+      <div class="card"><span class="ci">WhatsApp d'abord</span><h4>Le canal que vos clients utilisent déjà</h4><p>Toute la réservation transite par WhatsApp — pas par un tunnel de paiement carte fragile. Zéro friction, zéro dépendance à une infrastructure qui n'est pas encore là.</p></div>
+      <div class="card"><span class="ci">FR · AR · EN</span><h4>Trilingue, avec l'arabe en RTL natif</h4><p>Le site bascule proprement entre français, arabe et anglais. Votre clientèle est plurielle ; votre site l'est aussi, sans bricolage.</p></div>
+      <div class="card"><span class="ci">Dinar</span><h4>Tarifs et devis en DA</h4><p>Grille claire, aucun frais caché, montants en dinars. Le devis se construit et part sur WhatsApp comme une vraie conversation commerciale.</p></div>
+      <div class="card"><span class="ci">Consentement</span><h4>Un CRM qui respecte vos clients</h4><p>La messagerie membres n'écrit qu'aux clients qui l'ont choisi, avec désabonnement immédiat. On construit la confiance, on ne la brûle pas.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- 05 — REACTIF VERS PREDICTIF -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">La trajectoire</p>
+      <h2><span class="num">05</span>De réactif à prédictif — au bon rythme.</h2>
+      <p>Nous ne vendons pas une « IA qui devine tout » aujourd'hui. Nous vendons un système qui, discrètement, transforme chaque visite en donnée — et cette donnée, saison après saison, devient votre avantage.</p>
+    </div>
+    <div class="grid3">
+      <div class="card"><span class="ci">Aujourd'hui · Réactif</span><h4>Vous répondez</h4><p>Vous confirmez les demandes, vous gérez le flux, vous captez chaque réservation et chaque dépense au même endroit.</p></div>
+      <div class="card"><span class="ci">Saison 1–2 · Lisible</span><h4>Vous voyez</h4><p>Le tableau de bord révèle vos week-ends forts, vos créneaux creux, vos meilleures offres, vos clients qui décrochent.</p></div>
+      <div class="card hi"><span class="ci">Ensuite · Prédictif</span><h4>Vous anticipez</h4><p>Sur des chiffres, pas au feeling : quel samedi va saturer, quand renforcer l'équipe, quel segment relancer, quelle promo lancer et quand.</p></div>
+    </div>
+    <div class="callout"><p>La donnée devient un actif stratégique — le seul qui prend de la valeur pendant que vous dormez. Le prototype la capte déjà. Il ne reste qu'à la laisser travailler.</p></div>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- 06 — DEPLOIEMENT -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Le plan</p>
+      <h2><span class="num">06</span>Trois phases. En ligne pour la saison.</h2>
+      <p>Nous ne facturons pas un monolithe. Vous démarrez avec ce qui remplit l'île, puis vous montez en puissance — chaque phase se finance sur les résultats de la précédente.</p>
+    </div>
+
+    <div class="phase one">
+      <div class="pn">P1</div>
+      <div>
+        <h3>La base qui vend</h3>
+        <div class="when">Priorité · avant la saison</div>
+        <p>Site vitrine complet, réservation → devis → WhatsApp → QR-pass, et tableau de bord d'activité en direct. C'est le minimum pour arrêter de perdre des places.</p>
+        <p class="muted sm">Objectif : passer de « on gère au téléphone » à « les réservations tombent toutes seules et on confirme d'un geste ».</p>
+      </div>
+    </div>
+
+    <div class="phase two">
+      <div class="pn">P2</div>
+      <div>
+        <h3>Le moteur de fidélité</h3>
+        <div class="when">Une fois la base en place</div>
+        <p>Adhésion à points, niveaux Argent/Or/Platine, cartes clients, et CRM WhatsApp avec automatisations (bienvenue, rappel J-1, relance inactifs, anniversaire).</p>
+        <p class="muted sm">Objectif : remplir les creux de semaine et transformer un visiteur en habitué.</p>
+      </div>
+    </div>
+
+    <div class="phase three">
+      <div class="pn">P3</div>
+      <div>
+        <h3>Le pilotage par la donnée</h3>
+        <div class="when">Sur la durée</div>
+        <p>Analytics exécutif approfondi, lecture des tendances de remplissage et de revenu, et bascule progressive vers l'anticipation (demande, staffing, promotions).</p>
+        <p class="muted sm">Objectif : décider sur des chiffres, pas au feeling.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Investissement.</strong> Chaque phase est chiffrée séparément, avec un accompagnement continu. <span class="ph">[Montant Phase 1 à définir]</span> · <span class="ph">[Montant Phase 2 à définir]</span> · <span class="ph">[Montant Phase 3 / retainer à définir]</span>. Nous détaillons la structure de prix de vive voix, en fonction de vos priorités de saison.</p>
+    </div>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- 07 — POURQUOI NUMIDEA -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Pourquoi nous</p>
+      <h2><span class="num">07</span>Numidea Labs — un partenaire, pas un prestataire.</h2>
+      <p>Nous ne fabriquons pas des sites vitrines. Nous concevons des systèmes qui font tourner une activité. Voici ce qui nous distingue concrètement.</p>
+    </div>
+    <ul class="clean">
+      <li><b>Nous construisons avant de promettre.</b> Vous tenez déjà le produit entre les mains. Peu d'agences prennent ce risque ; nous le prenons parce que nous savons livrer.</li>
+      <li><b>Nous connaissons le terrain algérien.</b> WhatsApp-first, DA, trilingue FR/AR/EN. Pas une solution importée qu'on force à rentrer dans le marché.</li>
+      <li><b>Zéro intermédiaire.</b> Une équipe de quatre, en contact direct. Vous parlez aux gens qui construisent, pas à un commercial qui transmet.</li>
+      <li><b>Une exigence de design de premier ordre.</b> L'expérience de réservation doit être aussi soignée que le lieu. Regardez le prototype : c'est notre standard, pas notre meilleure version.</li>
+      <li><b>Accompagnement sur la durée.</b> Nous restons après la mise en ligne — évolutions, saisons, montée en puissance. Le système grandit avec vous.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- 08 — PISTES DE REVENUS -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Au-delà de la saison</p>
+      <h2><span class="num">08</span>Des revenus que le système rend possibles.</h2>
+      <p>Une fois la base en place, la même infrastructure ouvre des pistes sans nouveau chantier. À explorer ensemble, quand vous serez prêts.</p>
+    </div>
+    <div class="grid3">
+      <div class="card"><h4>Journées entreprises</h4><p>Séminaires, team-building et afterworks — un segment B2B à forte valeur, déjà prévu dans les offres.</p></div>
+      <div class="card"><h4>Anniversaires et privatisations</h4><p>Formules packagées, réservables et traçables, avec upsell restauration automatique.</p></div>
+      <div class="card"><h4>Cartes cadeaux</h4><p>Une entrée ou un bed offert — un revenu encaissé d'avance, parfait hors saison.</p></div>
+      <div class="card"><h4>Parrainage</h4><p>Un membre en amène un autre, les deux gagnent des points. L'acquisition qui se paie en fidélité.</p></div>
+      <div class="card"><h4>Avis Google automatisés</h4><p>Un message post-visite au bon moment. Votre réputation en ligne, cultivée sans effort.</p></div>
+      <div class="card"><h4>Partenariats hôtels / écoles</h4><p>Des canaux de remplissage récurrents que la plateforme permet de suivre proprement.</p></div>
+    </div>
+    <p class="muted sm" style="margin-top:20px">Nous ne les chiffrons pas ici : ce sont des opportunités à activer au bon moment, pas des promesses pour gonfler une facture.</p>
+  </div>
+</section>
+
+<div class="tide"></div>
+
+<!-- CTA -->
+<div class="cta">
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">La prochaine étape</p>
+    <h2>Trente minutes pour cadrer votre saison.</h2>
+    <p class="muted" style="max-width:48ch;margin:0 auto">Nous vous montrons le système en direct, nous écoutons vos priorités, et nous repartons avec un plan chiffré adapté à Oxygen Island.</p>
+    <a class="btn" href="https://wa.me/213559339020">Réserver un échange sur WhatsApp →</a>
+    <p class="muted sm" style="margin-top:20px">Découvrir Numidea Labs — <a href="https://brvetr4ve1er.github.io/Numidea.tech/#top" style="color:var(--lagoon-glow)">numidea.tech</a></p>
+  </div>
+</div>
+
+<div class="foot">
+  Numidea Labs · <a href="https://brvetr4ve1er.github.io/Numidea.tech/#top" style="color:var(--sand-dim)">numidea.tech</a> · Proposition confidentielle préparée pour Oxygen Island · 2026
+</div>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Fichiers dupliqués / égarés (à ne pas versionner)
+videos/oxygen-island-prototype.html
+videos/oxygen-island-standalone.html
+videos/plage artificielle.mp4
+
+# Config locale Claude (machine-spécifique)
+.claude/settings.local.json
+
+# Divers
+Thumbs.db
+.DS_Store
