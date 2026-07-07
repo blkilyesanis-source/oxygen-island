@@ -213,7 +213,7 @@ section.block{padding:96px 0;position:relative}
 }
 
 /* RESPONSIVE */
-@media(max-width:1080px){
+@media(max-width:1180px){
   .navlinks,.nav .btn{display:none}
   .nav .menu-toggle{display:inline-flex;padding:10px 14px}
   .nav-in .langsw{display:none}
@@ -545,6 +545,50 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
 .ncard-feat p.nx{color:var(--sand);max-width:46ch}
 .news-mini{display:flex;flex-direction:column;gap:18px}
 @media(max-width:820px){.news{grid-template-columns:1fr}.ncard-feat{grid-row:auto;min-height:300px}}
+
+/* ---- Recrutement (page publique carrières) ---- */
+.jobs{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.job{position:relative;min-width:0;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--card);display:flex;flex-direction:column;gap:12px;transition:.28s}
+.job:hover{border-color:rgba(25,194,177,.45);background:var(--card-hi);transform:translateY(-3px)}
+.job-top{display:flex;align-items:flex-start;gap:13px}
+.job-ic{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(25,194,177,.12);color:var(--lagoon-glow)}
+.job-ic .ico{width:24px;height:24px}
+.job h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:20px;margin:0;color:var(--sand)}
+.job .job-open{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#03201d;background:var(--lagoon);padding:4px 10px;border-radius:999px;margin-left:auto;flex:none;white-space:nowrap}
+.job-tags{display:flex;flex-wrap:wrap;gap:6px}
+.job-tag{font-size:11px;font-weight:600;color:var(--sand-dim);background:rgba(255,255,255,.04);border:1px solid var(--line);padding:4px 10px;border-radius:999px}
+.job p.job-d{font-size:14px;color:var(--sand-dim);margin:0}
+.job .btn{width:100%;justify-content:center;margin-top:auto}
+/* candidature — dépôt de CV */
+.apply{display:grid;grid-template-columns:1.35fr .85fr;gap:34px;align-items:start}
+.applyform{border:1px solid var(--line);border-radius:var(--r);background:var(--ink);padding:26px;box-shadow:var(--shadow)}
+.cv-drop{position:relative;border:1.5px dashed var(--line);border-radius:14px;background:var(--card);padding:24px 20px;text-align:center;cursor:pointer;transition:.2s;display:block}
+.cv-drop:hover,.cv-drop.drag{border-color:var(--lagoon);background:rgba(25,194,177,.06)}
+.cv-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.cv-drop .cv-ic{width:34px;height:34px;color:var(--lagoon-glow);margin:0 auto 8px}
+.cv-drop .cv-ic .ico{width:34px;height:34px}
+.cv-drop .cv-t{font-weight:700;font-size:14.5px;color:var(--sand)}
+.cv-drop .cv-s{font-size:12.5px;color:var(--sand-dim);margin-top:4px}
+.cv-drop.filled{border-color:var(--lagoon);border-style:solid;background:rgba(25,194,177,.08)}
+.cv-file{display:none;align-items:center;justify-content:center;gap:8px;font-size:13.5px;color:var(--sand);margin-top:10px;font-weight:600}
+.cv-file.on{display:flex}
+.cv-file .x{cursor:pointer;color:var(--sand-dim);background:none;border:0;font-size:18px;line-height:1}.cv-file .x:hover{color:#ff8a8a}
+.cv-err{display:none;color:#ff9a9a;font-size:12.5px;margin-top:8px}.cv-err.on{display:block}
+.applyaside{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:26px}
+.applyaside h3{font-family:"Fraunces",Georgia,serif;font-size:20px;margin:0 0 18px}
+.astep{display:flex;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.astep:last-of-type{border-bottom:0}
+.astep .an{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(25,194,177,.12);color:var(--lagoon-glow);font-family:"Fraunces";font-weight:600;font-size:15px}
+.astep h4{margin:0 0 3px;font-size:15px;color:var(--sand)}
+.astep p{margin:0;font-size:13px;color:var(--sand-dim)}
+.apply-note{margin-top:18px;font-size:12.5px;color:var(--sand-dim)}
+.apply-ok{display:none;border:1px solid var(--lagoon-deep);border-radius:var(--r);background:linear-gradient(160deg,rgba(25,194,177,.1),var(--ink));padding:30px;text-align:center;animation:fade .5s ease}
+.apply-ok.on{display:block}
+.apply-ok .ok-ic{width:56px;height:56px;border-radius:50%;background:var(--lagoon);color:#03201d;display:grid;place-items:center;margin:0 auto 16px}
+.apply-ok .ok-ic svg{width:30px;height:30px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.apply-ok h3{font-family:"Fraunces",Georgia,serif;font-size:24px;margin:0 0 8px}
+.apply-ok p{color:var(--sand-dim);margin:0 auto;max-width:46ch}
+@media(max-width:860px){.apply{grid-template-columns:1fr;gap:22px}}
 </style>
 </head>
 <body>
@@ -571,6 +615,9 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
 <g id="i-cal"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></g>
 <g id="i-sound"><path d="M4 9v6h4l5 4V5L8 9zM16.5 8.5a5 5 0 0 1 0 7M19 6a8 8 0 0 1 0 12"/></g>
 <g id="i-mute"><path d="M4 9v6h4l5 4V5L8 9zM17 9l4 6M21 9l-4 6"/></g>
+<g id="i-shield"><path d="M12 3l7 3v5c0 4.4-3 8.2-7 10-4-1.8-7-5.6-7-10V6z"/><path d="M9 12l2 2 4-4"/></g>
+<g id="i-briefcase"><rect x="3" y="7.5" width="18" height="12" rx="2.5"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5M3 12.5h18"/></g>
+<g id="i-upload"><path d="M12 15V4M8 8l4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/></g>
 </defs></svg>
 
 <!-- NAV -->
@@ -586,6 +633,7 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
       <button data-go="restauration">Restauration</button>
       <button data-go="adhesion">Adhésion</button>
       <button data-go="reservation">Réservation</button>
+      <button data-go="recrutement">Recrutement</button>
       <button data-go="admin">Espace Pro</button>
     </nav>
     <div class="langsw" role="group" aria-label="Langue / Language / اللغة">
@@ -602,6 +650,7 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
     <button data-go="restauration">Restauration</button>
     <button data-go="adhesion">Adhésion</button>
     <button data-go="reservation">Réservation</button>
+    <button data-go="recrutement">Recrutement</button>
     <button data-go="admin">Espace Pro</button>
     <div class="langsw langsw-mob" role="group" aria-label="Langue / Language / اللغة">
       <button data-lang="fr" class="on" type="button">FR</button>
@@ -1136,6 +1185,110 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
   </div>
 </div>
 
+<!-- PAGE — RECRUTEMENT (CARRIÈRES) -->
+<main class="page" id="recrutement">
+  <section class="block"><div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Rejoignez l'équipe</p>
+      <h2>On recrute pour la saison.</h2>
+      <p>Envie de travailler les pieds dans le sable ? Oxygen Island constitue son équipe pour l'été. Découvrez nos postes ouverts et postulez en quelques minutes.</p>
+    </div>
+    <div class="jobs">
+      <article class="job reveal">
+        <div class="job-top"><span class="job-ic"><svg class="ico"><use href="#i-cocktail"/></svg></span>
+          <div style="flex:1;min-width:0"><h3>Barman / Barmaid</h3></div><span class="job-open">Ouvert</span></div>
+        <div class="job-tags"><span class="job-tag">Saison · temps plein</span><span class="job-tag">Mar–Dim · 15h → minuit</span></div>
+        <p class="job-d">Cocktails, jus frais et service jusqu'aux beds. Sourire et rapidité les soirs d'affluence.</p>
+        <button class="btn btn-ghost" type="button" onclick="applyFor('barman')">Postuler <svg class="ico"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="job reveal" style="--rd:80ms">
+        <div class="job-top"><span class="job-ic"><svg class="ico"><use href="#i-shield"/></svg></span>
+          <div style="flex:1;min-width:0"><h3>Agent de sécurité</h3></div><span class="job-open">Ouvert</span></div>
+        <div class="job-tags"><span class="job-tag">Saison · temps plein</span><span class="job-tag">Jour et nuit</span></div>
+        <p class="job-d">Contrôle des accès, sécurité des espaces et du parking, gestion des flux les soirs d'affluence.</p>
+        <button class="btn btn-ghost" type="button" onclick="applyFor('securite')">Postuler <svg class="ico"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="job reveal" style="--rd:160ms">
+        <div class="job-top"><span class="job-ic"><svg class="ico"><use href="#i-music"/></svg></span>
+          <div style="flex:1;min-width:0"><h3>DJ résident</h3></div><span class="job-open">Ouvert</span></div>
+        <div class="job-tags"><span class="job-tag">Extra · week-end</span><span class="job-tag">Jeu–Dim · dès 16h</span></div>
+        <p class="job-d">Sets au coucher du soleil et afterwork, ambiance lounge les pieds dans le sable.</p>
+        <button class="btn btn-ghost" type="button" onclick="applyFor('dj')">Postuler <svg class="ico"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="job reveal" style="--rd:80ms">
+        <div class="job-top"><span class="job-ic"><svg class="ico"><use href="#i-fork"/></svg></span>
+          <div style="flex:1;min-width:0"><h3>Serveur / Serveuse</h3></div><span class="job-open">Ouvert</span></div>
+        <div class="job-tags"><span class="job-tag">Saison · temps plein</span><span class="job-tag">7/7 en roulement</span></div>
+        <p class="job-d">Service à la table et au bed : prise de commande, plats et boissons, satisfaction client.</p>
+        <button class="btn btn-ghost" type="button" onclick="applyFor('serveur')">Postuler <svg class="ico"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="job reveal" style="--rd:160ms">
+        <div class="job-top"><span class="job-ic"><svg class="ico"><use href="#i-wave"/></svg></span>
+          <div style="flex:1;min-width:0"><h3>Surveillant de baignade</h3></div><span class="job-open">Ouvert</span></div>
+        <div class="job-tags"><span class="job-tag">Saison · temps plein</span><span class="job-tag">Heures d'ouverture</span></div>
+        <p class="job-d">Surveillance du bassin et de la zone de baignade, prévention et sécurité des nageurs.</p>
+        <button class="btn btn-ghost" type="button" onclick="applyFor('surveillant')">Postuler <svg class="ico"><use href="#i-arrow"/></svg></button>
+      </article>
+    </div>
+  </div></section>
+
+  <div class="tide"></div>
+
+  <section class="block"><div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Candidature</p>
+      <h2>Déposez votre CV.</h2>
+      <p>Remplissez le formulaire, joignez votre CV au format PDF, et notre équipe vous recontacte. C'est aussi simple que ça.</p>
+    </div>
+    <div class="apply" id="applyBlock">
+      <form class="applyform" id="applyForm" onsubmit="return submitApply(event)">
+        <div class="row2">
+          <div class="field"><label for="cvName">Nom et prénom</label><input type="text" id="cvName" required placeholder="Nom et prénom"></div>
+          <div class="field"><label for="cvPhone">Téléphone</label><input type="tel" id="cvPhone" required placeholder="0X XX XX XX XX"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="cvEmail">Email</label><input type="email" id="cvEmail" required placeholder="vous@email.com"></div>
+          <div class="field"><label for="cvPoste">Poste visé</label>
+            <select id="cvPoste">
+              <option value="barman">Barman / Barmaid</option>
+              <option value="securite">Agent de sécurité</option>
+              <option value="dj">DJ résident</option>
+              <option value="serveur">Serveur / Serveuse</option>
+              <option value="surveillant">Surveillant de baignade</option>
+              <option value="spontanee">Candidature spontanée</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="cvMsg">Message (optionnel)</label><textarea id="cvMsg" rows="3" placeholder="Parlez-nous de vous et de vos disponibilités…"></textarea></div>
+        <div class="field"><label>Votre CV (PDF)</label>
+          <label class="cv-drop" id="cvDrop">
+            <input type="file" id="cvFile" accept="application/pdf,.pdf" aria-label="Joindre votre CV au format PDF">
+            <span class="cv-ic"><svg class="ico"><use href="#i-upload"/></svg></span>
+            <span class="cv-t">Glissez votre CV ici, ou cliquez pour parcourir</span>
+            <span class="cv-s">Format PDF · 5 Mo maximum</span>
+          </label>
+          <div class="cv-file" id="cvFileInfo"><span id="cvFileName"></span><button type="button" class="x" onclick="clearCV()" aria-label="Retirer le fichier">×</button></div>
+          <div class="cv-err" id="cvErr">Merci de joindre un fichier au format PDF (5 Mo maximum).</div>
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;margin-top:6px">Envoyer ma candidature</button>
+        <p class="muted sm" style="margin-top:12px;font-size:12px">Prototype — démonstration. Vos informations ne sont pas enregistrées.</p>
+      </form>
+      <aside class="applyaside">
+        <h3>Comment ça se passe</h3>
+        <div class="astep"><span class="an">1</span><div><h4>Vous postulez</h4><p>Formulaire et CV en PDF, en deux minutes.</p></div></div>
+        <div class="astep"><span class="an">2</span><div><h4>On étudie votre profil</h4><p>Notre équipe examine chaque candidature avec soin.</p></div></div>
+        <div class="astep"><span class="an">3</span><div><h4>On vous recontacte</h4><p>Réponse sous 48h, entretien sur place à Bouchaoui.</p></div></div>
+        <p class="apply-note">Une question ? Écrivez-nous à <a class="gold" href="mailto:contact@oxygen-island.com">contact@oxygen-island.com</a>.</p>
+      </aside>
+    </div>
+    <div class="apply-ok" id="applyOk">
+      <div class="ok-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg></div>
+      <h3>Candidature envoyée !</h3>
+      <p>Merci <span id="okName">candidat</span>, nous avons bien reçu votre candidature. Notre équipe vous recontacte sous 48h.</p>
+    </div>
+  </div></section>
+</main>
+
 <!-- PAGE — ESPACE PRO (ADMIN) -->
 <main class="page" id="admin">
   <section class="block"><div class="wrap">
@@ -1149,6 +1302,7 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
       <button class="adtab" role="tab" aria-selected="false" data-adtab="analytics">Analytics</button>
       <button class="adtab" role="tab" aria-selected="false" data-adtab="membres">Membres et fidélité</button>
       <button class="adtab" role="tab" aria-selected="false" data-adtab="campagnes">Campagnes et WhatsApp</button>
+      <button class="adtab" role="tab" aria-selected="false" data-adtab="recrutement">Recrutement</button>
     </div>
     <div class="adpanel on" id="adp-live" role="tabpanel">
     <div class="kpis">
@@ -2515,6 +2669,199 @@ table.q td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:
     initOxyCampaigns();
   </script>
 </section></div>
+    <div class="adpanel" id="adp-recrutement" role="tabpanel" hidden><section class="dash-recruit" aria-labelledby="oxr-title">
+  <style>
+    .dash-recruit{
+      --abyss:#04211d;--abyss-2:#072b26;--ink:#03110f;
+      --lagoon:#19c2b1;--lagoon-deep:#0a6b62;--lagoon-glow:#3fe6d4;
+      --sand:#ece0c8;--sand-dim:#b9b09b;--gold:#cba85a;--amber:#e9a23b;
+      --line:rgba(236,224,200,.14);--card:rgba(255,255,255,.035);--card-hi:rgba(255,255,255,.06);
+      --shadow:0 30px 80px -30px rgba(0,0,0,.7);--r:18px;
+      box-sizing:border-box;background:var(--abyss);color:var(--sand);
+      font-family:"Manrope",system-ui,-apple-system,sans-serif;
+      padding:clamp(16px,4vw,32px);line-height:1.5;-webkit-font-smoothing:antialiased;
+    }
+    .dash-recruit *,.dash-recruit *::before,.dash-recruit *::after{box-sizing:border-box}
+    .dash-recruit :focus-visible{outline:2px solid var(--lagoon-glow);outline-offset:2px;border-radius:6px}
+    .dash-recruit .oxr-eyebrow{font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--lagoon-glow);margin:0 0 8px}
+    .dash-recruit .oxr-h{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(22px,3.4vw,30px);margin:0 0 6px;color:var(--sand);letter-spacing:.01em}
+    .dash-recruit .oxr-sub{margin:0;color:var(--sand-dim);font-size:14px;max-width:72ch}
+    .dash-recruit .oxr-sub b{color:var(--sand);font-weight:600}
+    .dash-recruit .oxr-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0 20px}
+    @media(max-width:760px){.dash-recruit .oxr-stats{grid-template-columns:repeat(2,1fr)}}
+    .dash-recruit .oxr-stat{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+    .dash-recruit .oxr-stat .n{font-family:"Fraunces",Georgia,serif;font-size:28px;color:var(--sand);line-height:1}
+    .dash-recruit .oxr-stat .n .u{font-family:Manrope;font-size:14px;color:var(--sand-dim);font-weight:600}
+    .dash-recruit .oxr-stat .l{font-size:12px;letter-spacing:.03em;color:var(--sand-dim);margin-top:7px}
+    .dash-recruit .oxr-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:2px 0 16px}
+    .dash-recruit .oxr-bar h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:18px;margin:0;color:var(--sand)}
+    .dash-recruit .oxr-btn{appearance:none;border:1px solid var(--lagoon);background:var(--lagoon);color:#03201d;font:inherit;font-weight:700;font-size:13.5px;padding:10px 16px;min-height:42px;border-radius:999px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:7px}
+    .dash-recruit .oxr-btn svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .dash-recruit .oxr-btn:hover{background:var(--lagoon-glow);border-color:var(--lagoon-glow)}
+    .dash-recruit .oxr-btn.ghost{background:none;color:var(--sand);border-color:var(--line)}
+    .dash-recruit .oxr-btn.ghost:hover{border-color:var(--lagoon)}
+    .dash-recruit .oxr-form{background:var(--ink);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:18px;display:none}
+    .dash-recruit .oxr-form.on{display:block;animation:oxrfade .3s ease}
+    @keyframes oxrfade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+    .dash-recruit .oxr-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:560px){.dash-recruit .oxr-form-grid{grid-template-columns:1fr}}
+    .dash-recruit .oxr-field label{display:block;font-size:12px;color:var(--sand-dim);margin-bottom:6px}
+    .dash-recruit .oxr-field input,.dash-recruit .oxr-field select,.dash-recruit .oxr-field textarea{width:100%;background:var(--abyss-2);border:1px solid var(--line);border-radius:10px;color:var(--sand);font-family:inherit;font-size:14px;padding:10px 12px}
+    .dash-recruit .oxr-field textarea{resize:vertical;min-height:70px}
+    .dash-recruit .oxr-form-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .dash-recruit .oxr-ok{display:none;margin-top:12px;font-size:13px;color:var(--lagoon-glow)}
+    .dash-recruit .oxr-ok.on{display:block}
+    .dash-recruit .oxr-offers{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+    .dash-recruit .oxr-offer{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:12px;transition:.25s}
+    .dash-recruit .oxr-offer:hover{border-color:rgba(25,194,177,.45);background:var(--card-hi)}
+    .dash-recruit .oxr-offer-top{display:flex;align-items:flex-start;gap:12px}
+    .dash-recruit .oxr-ic{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(25,194,177,.12);color:var(--lagoon-glow)}
+    .dash-recruit .oxr-ic svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .dash-recruit .oxr-offer h4{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:18px;margin:0;color:var(--sand)}
+    .dash-recruit .oxr-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .dash-recruit .oxr-tag{font-size:11px;font-weight:600;color:var(--sand-dim);background:rgba(255,255,255,.04);border:1px solid var(--line);padding:3px 9px;border-radius:999px}
+    .dash-recruit .oxr-status{flex:none;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;white-space:nowrap}
+    .dash-recruit .oxr-status.open{color:#03201d;background:var(--lagoon)}
+    .dash-recruit .oxr-status.filled{color:var(--sand-dim);background:rgba(255,255,255,.06);border:1px solid var(--line)}
+    .dash-recruit .oxr-desc{font-size:13.5px;color:var(--sand-dim);margin:0}
+    .dash-recruit .oxr-profile{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+    .dash-recruit .oxr-profile li{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--sand)}
+    .dash-recruit .oxr-profile li svg{flex:none;width:15px;height:15px;color:var(--lagoon-glow);margin-top:2px}
+    .dash-recruit .oxr-offer-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:12px;border-top:1px dashed var(--line)}
+    .dash-recruit .oxr-apps{font-size:12.5px;color:var(--sand-dim)}
+    .dash-recruit .oxr-apps b{color:var(--lagoon-glow)}
+    .dash-recruit .oxr-mini{appearance:none;border:1px solid var(--line);background:none;color:var(--sand);font:inherit;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer;transition:.2s;white-space:nowrap}
+    .dash-recruit .oxr-mini:hover{border-color:var(--lagoon);color:var(--lagoon-glow)}
+    .dash-recruit .oxr-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);min-width:0;margin-top:20px}
+    .dash-recruit .oxr-card-h{display:flex;align-items:baseline;gap:10px;justify-content:space-between;flex-wrap:wrap;margin:0 0 14px;font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:17px;color:var(--sand)}
+    .dash-recruit .oxr-card-h .sm{font-family:Manrope;font-size:12px;font-weight:400;color:var(--sand-dim)}
+    .dash-recruit .oxr-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .dash-recruit .oxr-table{width:100%;min-width:520px;border-collapse:collapse}
+    .dash-recruit .oxr-table th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--sand-dim);font-weight:700;padding:0 12px 10px;white-space:nowrap}
+    .dash-recruit .oxr-table td{padding:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--sand);vertical-align:middle;white-space:nowrap}
+    .dash-recruit .oxr-cand-name{display:flex;align-items:center;gap:10px}
+    .dash-recruit .oxr-av{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:12px;color:#03201d;background:linear-gradient(135deg,var(--lagoon),var(--lagoon-deep))}
+    .dash-recruit .oxr-badge{font-size:11px;font-weight:800;letter-spacing:.04em;padding:4px 10px;border-radius:999px;white-space:nowrap}
+    .dash-recruit .oxr-badge.nouveau{color:#03201d;background:var(--lagoon-glow)}
+    .dash-recruit .oxr-badge.entretien{color:#241a05;background:var(--amber)}
+    .dash-recruit .oxr-badge.retenu{color:#052b16;background:#7fd18f}
+    .dash-recruit .oxr-badge.ecarte{color:var(--sand-dim);background:rgba(255,255,255,.06);border:1px solid var(--line)}
+    .dash-recruit .oxr-note{font-size:12px;color:var(--sand-dim);margin-top:14px}
+  </style>
+
+  <header>
+    <p class="oxr-eyebrow">Espace Pro · Recrutement</p>
+    <h2 id="oxr-title" class="oxr-h">Centre de recrutement</h2>
+    <p class="oxr-sub">Publiez vos postes, recevez les candidatures et constituez votre équipe de saison — sans quitter votre tableau de bord. <b>Données simulées — démonstration.</b></p>
+  </header>
+
+  <div class="oxr-stats">
+    <div class="oxr-stat"><div class="n">5</div><div class="l">Postes ouverts</div></div>
+    <div class="oxr-stat"><div class="n">47</div><div class="l">Candidatures ce mois</div></div>
+    <div class="oxr-stat"><div class="n">8</div><div class="l">Entretiens à venir</div></div>
+    <div class="oxr-stat"><div class="n">2 <span class="u">j</span></div><div class="l">Délai de réponse moyen</div></div>
+  </div>
+
+  <div class="oxr-bar">
+    <h3>Offres publiées</h3>
+    <button class="oxr-btn" id="oxr-new" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Publier une offre</button>
+  </div>
+
+  <div class="oxr-form" id="oxr-form">
+    <div class="oxr-form-grid">
+      <div class="oxr-field"><label for="oxr-f1">Intitulé du poste</label><input id="oxr-f1" type="text" placeholder="Ex : Barman / Barmaid"></div>
+      <div class="oxr-field"><label for="oxr-f2">Type de contrat</label><select id="oxr-f2"><option>Saison · temps plein</option><option>Extra · week-end et soirées</option><option>Temps partiel</option><option>Stage</option></select></div>
+      <div class="oxr-field"><label for="oxr-f3">Horaires</label><input id="oxr-f3" type="text" placeholder="Ex : Mar–Dim · 15h → minuit"></div>
+      <div class="oxr-field"><label for="oxr-f4">Rémunération</label><input id="oxr-f4" type="text" placeholder="Selon profil et expérience"></div>
+    </div>
+    <div class="oxr-field" style="margin-top:12px"><label for="oxr-f5">Missions et profil recherché</label><textarea id="oxr-f5" rows="3" placeholder="Décrivez les missions et le profil idéal…"></textarea></div>
+    <div class="oxr-form-actions">
+      <button class="oxr-btn" type="button" id="oxr-publish">Publier l'offre</button>
+      <button class="oxr-btn ghost" type="button" id="oxr-cancel">Annuler</button>
+    </div>
+    <p class="oxr-ok" id="oxr-ok">✓ Démo — l'offre serait publiée et proposée aux candidats. Aucune donnée réelle enregistrée.</p>
+  </div>
+
+  <div class="oxr-offers" id="oxr-offers"><!-- injecté par initOxyRecruit() --></div>
+
+  <div class="oxr-card">
+    <div class="oxr-card-h">Candidatures récentes <span class="sm">Reçues via le site · données simulées</span></div>
+    <div class="oxr-tablewrap">
+      <table class="oxr-table">
+        <thead><tr><th>Candidat</th><th>Poste</th><th>Reçue</th><th>Statut</th></tr></thead>
+        <tbody id="oxr-candrows"><!-- injecté par initOxyRecruit() --></tbody>
+      </table>
+    </div>
+    <p class="oxr-note">Démonstration — données simulées. En production : réception des CV, tri par statut, planification des entretiens et messagerie candidat intégrés.</p>
+  </div>
+
+  <script>
+    window.initOxyRecruit=function(){
+      var offersEl=document.getElementById('oxr-offers');
+      if(!offersEl || offersEl.dataset.loaded) return; offersEl.dataset.loaded='1';
+      var check='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>';
+      var OFFERS=[
+        {role:'Barman / Barmaid', icon:'i-cocktail', type:'Saison · temps plein', sched:'Mar–Dim · 15h → minuit', pay:'Selon profil', status:'Ouvert', apps:14,
+          desc:"Service au bar et jusqu'aux beds : cocktails, jus frais et softs. Encaissement et tenue du bar.",
+          profile:['Expérience en bar ou service appréciée','Rapidité, sourire et sens du contact','Disponible en soirée et le week-end']},
+        {role:'Agent de sécurité', icon:'i-shield', type:'Saison · temps plein', sched:'Roulement · jour et nuit', pay:'Selon profil', status:'Ouvert', apps:9,
+          desc:"Contrôle des accès, sécurité des espaces et du parking, gestion des flux les soirs d'affluence.",
+          profile:['Carte professionnelle exigée','Calme, vigilance et bonne présentation','Expérience événementiel un plus']},
+        {role:'DJ résident', icon:'i-music', type:'Extra · week-end et soirées', sched:'Jeu–Dim · 16h → minuit', pay:'Cachet par soirée', status:'Ouvert', apps:11,
+          desc:"Sets au coucher du soleil et afterwork : house, deep et sonorités estivales, ambiance lounge les pieds dans le sable.",
+          profile:['Matériel et bibliothèque musicale personnels','Lecture de foule et transitions propres','Références ou mix à l’appui']},
+        {role:'Serveur / Serveuse', icon:'i-fork', type:'Saison · temps plein', sched:'7/7 en roulement · 10h → 19h30', pay:'Selon profil', status:'Ouvert', apps:8,
+          desc:"Service à la table et au bed : prise de commande, plats et boissons, satisfaction client.",
+          profile:['Dynamisme et esprit d’équipe','Sens du service et présentation soignée','Débutant·e accepté·e, formation assurée']},
+        {role:'Surveillant de baignade', icon:'i-wave', type:'Saison · temps plein', sched:'7/7 en roulement · heures d’ouverture', pay:'Selon profil', status:'Ouvert', apps:5,
+          desc:"Surveillance du bassin et de la zone de baignade, prévention et premiers secours, sécurité des nageurs.",
+          profile:['Diplôme de sauvetage aquatique exigé','Réactivité et sang-froid','Aisance aquatique confirmée']}
+      ];
+      OFFERS.forEach(function(o){
+        var card=document.createElement('article'); card.className='oxr-offer';
+        card.innerHTML=
+          '<div class="oxr-offer-top">'+
+            '<span class="oxr-ic"><svg viewBox="0 0 24 24"><use href="#'+o.icon+'"/></svg></span>'+
+            '<div style="min-width:0;flex:1"><h4>'+o.role+'</h4>'+
+              '<div class="oxr-tags"><span class="oxr-tag">'+o.type+'</span><span class="oxr-tag">'+o.sched+'</span><span class="oxr-tag">Rémunération : '+o.pay+'</span></div>'+
+            '</div>'+
+            '<span class="oxr-status '+(o.status==='Ouvert'?'open':'filled')+'">'+o.status+'</span>'+
+          '</div>'+
+          '<p class="oxr-desc">'+o.desc+'</p>'+
+          '<ul class="oxr-profile">'+o.profile.map(function(p){return '<li>'+check+'<span>'+p+'</span></li>';}).join('')+'</ul>'+
+          '<div class="oxr-offer-foot"><span class="oxr-apps"><b>'+o.apps+'</b> candidatures</span>'+
+            '<button class="oxr-mini" type="button" data-viewcand>Voir les candidatures</button></div>';
+        offersEl.appendChild(card);
+      });
+      var CANDS=[
+        {name:'Yacine B.', role:'Barman', when:'Il y a 2 h', status:'Nouveau'},
+        {name:'Sarah M.', role:'Serveuse', when:'Il y a 4 h', status:'Entretien'},
+        {name:'Karim D.', role:'DJ résident', when:'Hier', status:'Nouveau'},
+        {name:'Lina H.', role:'Barmaid', when:'Hier', status:'Retenu'},
+        {name:'Omar T.', role:'Agent de sécurité', when:'Il y a 2 j', status:'Entretien'},
+        {name:'Nadia K.', role:'Surveillant de baignade', when:'Il y a 3 j', status:'Écarté'},
+        {name:'Riad S.', role:'Serveur', when:'Il y a 3 j', status:'Nouveau'}
+      ];
+      var cls={'Nouveau':'nouveau','Entretien':'entretien','Retenu':'retenu','Écarté':'ecarte'};
+      var rows=document.getElementById('oxr-candrows');
+      CANDS.forEach(function(c){
+        var tr=document.createElement('tr');
+        tr.innerHTML='<td><span class="oxr-cand-name"><span class="oxr-av">'+c.name.charAt(0)+'</span>'+c.name+'</span></td>'+
+          '<td>'+c.role+'</td><td>'+c.when+'</td>'+
+          '<td><span class="oxr-badge '+(cls[c.status]||'nouveau')+'">'+c.status+'</span></td>';
+        rows.appendChild(tr);
+      });
+      var form=document.getElementById('oxr-form'), btnNew=document.getElementById('oxr-new'),
+          btnCancel=document.getElementById('oxr-cancel'), btnPub=document.getElementById('oxr-publish'), ok=document.getElementById('oxr-ok');
+      if(btnNew) btnNew.addEventListener('click',function(){ form.classList.toggle('on'); ok.classList.remove('on'); if(form.classList.contains('on')) form.scrollIntoView({block:'nearest',behavior:'smooth'}); });
+      if(btnCancel) btnCancel.addEventListener('click',function(){ form.classList.remove('on'); ok.classList.remove('on'); });
+      if(btnPub) btnPub.addEventListener('click',function(){ ok.classList.add('on'); });
+      offersEl.querySelectorAll('[data-viewcand]').forEach(function(b){ b.addEventListener('click',function(){ var t=document.querySelector('.dash-recruit .oxr-card'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+    };
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', function(){ window.initOxyRecruit(); }); }
+    else { window.initOxyRecruit(); }
+  </script>
+</section></div>
   </div></section>
 </main>
 
@@ -2590,7 +2937,55 @@ var I18N={
 "Vos applications de course préférées vous déposent directement à l'entrée.":{en:"Your favourite ride-hailing apps drop you right at the entrance.",ar:"تطبيقات النقل المفضّلة لديك توصلك مباشرة إلى المدخل."},
 /* nav */
 "Accueil":{en:"Home",ar:"الرئيسية"},"Offres":{en:"Offers",ar:"العروض"},"Restauration":{en:"Dining",ar:"المطعم"},
-"Réservation":{en:"Booking",ar:"الحجز"},"Espace Pro":{en:"Pro Area",ar:"فضاء المحترفين"},"Réserver →":{en:"Book →",ar:"احجز ←"},
+"Réservation":{en:"Booking",ar:"الحجز"},"Espace Pro":{en:"Pro Area",ar:"فضاء المحترفين"},"Réserver →":{en:"Book →",ar:"احجز ←"},"Recrutement":{en:"Careers",ar:"التوظيف"},
+/* recrutement — page carrières */
+"Rejoignez l'équipe":{en:"Join the team",ar:"انضمّ إلى الفريق"},
+"On recrute pour la saison.":{en:"We're hiring for the season.",ar:"نوظّف لهذا الموسم."},
+"Envie de travailler les pieds dans le sable ? Oxygen Island constitue son équipe pour l'été. Découvrez nos postes ouverts et postulez en quelques minutes.":{en:"Fancy working with your feet in the sand? Oxygen Island is building its summer team. Browse our open positions and apply in a few minutes.",ar:"هل ترغب في العمل وقدماك في الرمل؟ يُكوّن أوكسجين آيلاند فريقه الصيفي. اطّلع على المناصب الشاغرة وقدّم طلبك في دقائق."},
+"Barman / Barmaid":{en:"Bartender",ar:"عامل حانة"},
+"Agent de sécurité":{en:"Security guard",ar:"عون أمن"},
+"DJ résident":{en:"Resident DJ",ar:"دي جي مقيم"},
+"Serveur / Serveuse":{en:"Waiter / Waitress",ar:"نادل / نادلة"},
+"Surveillant de baignade":{en:"Lifeguard",ar:"مراقب سباحة"},
+"Ouvert":{en:"Open",ar:"مفتوح"},
+"Saison · temps plein":{en:"Season · full-time",ar:"موسمي · دوام كامل"},
+"Mar–Dim · 15h → minuit":{en:"Tue–Sun · 3pm → midnight",ar:"الثلاثاء–الأحد · 15:00 → منتصف الليل"},
+"Jour et nuit":{en:"Day and night",ar:"نهارًا وليلًا"},
+"Extra · week-end":{en:"Extra · weekends",ar:"إضافي · عطلة نهاية الأسبوع"},
+"Jeu–Dim · dès 16h":{en:"Thu–Sun · from 4pm",ar:"الخميس–الأحد · من 16:00"},
+"7/7 en roulement":{en:"7/7 in rotation",ar:"7/7 بالتناوب"},
+"Heures d'ouverture":{en:"Opening hours",ar:"ساعات العمل"},
+"Cocktails, jus frais et service jusqu'aux beds. Sourire et rapidité les soirs d'affluence.":{en:"Cocktails, fresh juices and service right to the beds. A smile and speed on busy nights.",ar:"كوكتيلات وعصائر طازجة وخدمة حتى الأسرّة. ابتسامة وسرعة في الليالي المزدحمة."},
+"Contrôle des accès, sécurité des espaces et du parking, gestion des flux les soirs d'affluence.":{en:"Access control, safety of the grounds and car park, crowd management on busy nights.",ar:"مراقبة الدخول، تأمين المساحات والموقف، وتنظيم الحركة في الليالي المزدحمة."},
+"Sets au coucher du soleil et afterwork, ambiance lounge les pieds dans le sable.":{en:"Sunset and afterwork sets, lounge vibe with your feet in the sand.",ar:"عروض عند الغروب والأفترورك، أجواء لاونج وقدماك في الرمل."},
+"Service à la table et au bed : prise de commande, plats et boissons, satisfaction client.":{en:"Table and bed service: taking orders, food and drinks, customer satisfaction.",ar:"خدمة الطاولات والأسرّة: أخذ الطلبات، الأطباق والمشروبات، ورضا الزبون."},
+"Surveillance du bassin et de la zone de baignade, prévention et sécurité des nageurs.":{en:"Watching over the pool and swimming area, prevention and swimmer safety.",ar:"مراقبة الحوض ومنطقة السباحة، الوقاية وسلامة السباحين."},
+"Postuler":{en:"Apply",ar:"قدّم طلبك"},
+"Candidature":{en:"Application",ar:"طلب توظيف"},
+"Déposez votre CV.":{en:"Drop off your CV.",ar:"أودِع سيرتك الذاتية."},
+"Remplissez le formulaire, joignez votre CV au format PDF, et notre équipe vous recontacte. C'est aussi simple que ça.":{en:"Fill in the form, attach your CV as a PDF, and our team gets back to you. It's that simple.",ar:"املأ النموذج، أرفق سيرتك الذاتية بصيغة PDF، وسيتواصل معك فريقنا. الأمر بهذه البساطة."},
+"Email":{en:"Email",ar:"البريد الإلكتروني"},
+"Poste visé":{en:"Position",ar:"المنصب المطلوب"},
+"Candidature spontanée":{en:"Open application",ar:"طلب تلقائي"},
+"Message (optionnel)":{en:"Message (optional)",ar:"رسالة (اختياري)"},
+"Parlez-nous de vous et de vos disponibilités…":{en:"Tell us about yourself and your availability…",ar:"حدّثنا عن نفسك وعن أوقات توفّرك…"},
+"Votre CV (PDF)":{en:"Your CV (PDF)",ar:"سيرتك الذاتية (PDF)"},
+"Glissez votre CV ici, ou cliquez pour parcourir":{en:"Drag your CV here, or click to browse",ar:"اسحب سيرتك الذاتية هنا، أو انقر للتصفّح"},
+"Format PDF · 5 Mo maximum":{en:"PDF format · 5 MB maximum",ar:"صيغة PDF · 5 ميغابايت كحدّ أقصى"},
+"Merci de joindre un fichier au format PDF (5 Mo maximum).":{en:"Please attach a PDF file (5 MB maximum).",ar:"يرجى إرفاق ملف بصيغة PDF (5 ميغابايت كحدّ أقصى)."},
+"Envoyer ma candidature":{en:"Send my application",ar:"إرسال طلبي"},
+"Prototype — démonstration. Vos informations ne sont pas enregistrées.":{en:"Prototype — demo. Your information is not stored.",ar:"نموذج أولي — عرض تجريبي. لا يتم حفظ معلوماتك."},
+"Comment ça se passe":{en:"How it works",ar:"كيف تسير الأمور"},
+"Vous postulez":{en:"You apply",ar:"تقدّم طلبك"},
+"Formulaire et CV en PDF, en deux minutes.":{en:"Form and CV as a PDF, in two minutes.",ar:"النموذج والسيرة بصيغة PDF، في دقيقتين."},
+"On étudie votre profil":{en:"We review your profile",ar:"ندرس ملفك"},
+"Notre équipe examine chaque candidature avec soin.":{en:"Our team reviews every application carefully.",ar:"يدرس فريقنا كل طلب بعناية."},
+"On vous recontacte":{en:"We get back to you",ar:"نتواصل معك"},
+"Réponse sous 48h, entretien sur place à Bouchaoui.":{en:"Reply within 48h, interview on site in Bouchaoui.",ar:"ردّ خلال 48 ساعة، ومقابلة في الموقع ببوشاوي."},
+"Une question ? Écrivez-nous à":{en:"A question? Write to us at",ar:"لديك سؤال؟ راسلنا على"},
+"Candidature envoyée !":{en:"Application sent!",ar:"تمّ إرسال الطلب!"},
+"Merci":{en:"Thank you",ar:"شكرًا"},
+", nous avons bien reçu votre candidature. Notre équipe vous recontacte sous 48h.":{en:", we've received your application. Our team will get back to you within 48h.",ar:"، لقد استلمنا طلبك. سيتواصل معك فريقنا خلال 48 ساعة."},
 /* adhésion / membership */
 "Adhésion":{en:"Membership",ar:"العضوية"},
 "Rejoignez l'île. Pas seulement la plage.":{en:"Join the island. Not just the beach.",ar:"انضمّ إلى الجزيرة، لا إلى الشاطئ فقط."},
@@ -3228,12 +3623,13 @@ var ZONES={
 (function(){
   var inits={analytics:function(){window.OxyDashExec&&window.OxyDashExec.init&&window.OxyDashExec.init();},
              membres:function(){window.initDashMembership&&window.initDashMembership();},
-             campagnes:function(){window.initOxyCampaigns&&window.initOxyCampaigns();}};
+             campagnes:function(){window.initOxyCampaigns&&window.initOxyCampaigns();},
+             recrutement:function(){window.initOxyRecruit&&window.initOxyRecruit();}};
   var done={};
   function show(name){
     document.querySelectorAll('.adtab').forEach(function(b){var on=b.getAttribute('data-adtab')===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
     document.querySelectorAll('.adpanel').forEach(function(p){p.hidden=true;});
-    var idmap={live:'adp-live',analytics:'adp-analytics',membres:'adp-membres',campagnes:'adp-campagnes'};
+    var idmap={live:'adp-live',analytics:'adp-analytics',membres:'adp-membres',campagnes:'adp-campagnes',recrutement:'adp-recrutement'};
     var panel=document.getElementById(idmap[name]); if(panel) panel.hidden=false;
     if(inits[name] && !done[name]){ done[name]=true; setTimeout(inits[name],30); }
     else if(inits[name]){ setTimeout(inits[name],30); }
@@ -3295,6 +3691,53 @@ var ZONES={
   window.addEventListener('oxy:pagechange', function(){ setTimeout(reeval,50); setTimeout(reeval,320); });
   // Onglet en arrière-plan : on met en pause pour économiser batterie/données.
   document.addEventListener('visibilitychange', function(){ if(document.hidden){ vids.forEach(pauseV); } else { reeval(); } });
+})();
+</script>
+<script>
+/* ---- Recrutement : dépôt de CV (PDF) + candidature (démo) ---- */
+(function(){
+  var fileInput=document.getElementById('cvFile');
+  if(!fileInput) return;
+  var drop=document.getElementById('cvDrop'), info=document.getElementById('cvFileInfo'),
+      nameEl=document.getElementById('cvFileName'), err=document.getElementById('cvErr');
+  var MAX=5*1024*1024;
+  function clearInternal(){ try{ fileInput.value=''; }catch(e){} info.classList.remove('on'); drop.classList.remove('filled'); }
+  function setFile(f){
+    err.classList.remove('on');
+    if(!f) return;
+    var isPdf=/pdf$/i.test(f.type||'')||/\.pdf$/i.test(f.name||'');
+    if(!isPdf || f.size>MAX){ err.classList.add('on'); clearInternal(); return; }
+    var kb=f.size<1048576 ? Math.max(1,Math.round(f.size/1024))+' Ko' : (f.size/1048576).toFixed(1)+' Mo';
+    nameEl.textContent=f.name+' · '+kb;
+    info.classList.add('on'); drop.classList.add('filled');
+  }
+  window.clearCV=function(){ clearInternal(); err.classList.remove('on'); };
+  fileInput.addEventListener('change',function(){ setFile(fileInput.files&&fileInput.files[0]); });
+  ['dragenter','dragover'].forEach(function(ev){ drop.addEventListener(ev,function(e){ e.preventDefault(); drop.classList.add('drag'); }); });
+  ['dragleave','drop'].forEach(function(ev){ drop.addEventListener(ev,function(e){ e.preventDefault(); drop.classList.remove('drag'); }); });
+  drop.addEventListener('drop',function(e){
+    var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(!f) return;
+    try{ var dt=new DataTransfer(); dt.items.add(f); fileInput.files=dt.files; }catch(_){}
+    setFile(f);
+  });
+  window.applyFor=function(key){
+    if(typeof go==='function') go('recrutement');
+    var sel=document.getElementById('cvPoste'); if(sel && key) sel.value=key;
+    setTimeout(function(){
+      var block=document.getElementById('applyBlock'); if(block) block.scrollIntoView({behavior:'smooth',block:'start'});
+      var nm=document.getElementById('cvName'); if(nm){ try{ nm.focus({preventScroll:true}); }catch(e){ nm.focus(); } }
+    },140);
+  };
+  window.submitApply=function(e){
+    e.preventDefault();
+    var f=fileInput.files&&fileInput.files[0];
+    if(!f){ err.classList.add('on'); drop.scrollIntoView({behavior:'smooth',block:'center'}); return false; }
+    var nm=(document.getElementById('cvName')||{}).value||'';
+    var okName=document.getElementById('okName'); if(okName){ var first=nm.trim().split(/\s+/)[0]; okName.textContent=first||okName.textContent; }
+    var block=document.getElementById('applyBlock'); if(block) block.style.display='none';
+    var ok=document.getElementById('applyOk'); if(ok){ ok.classList.add('on'); ok.scrollIntoView({behavior:'smooth',block:'center'}); }
+    return false;
+  };
 })();
 </script>
 </body>
